@@ -426,9 +426,11 @@ def qr_svg(url)
       fill: "ffffff",
       module_size: 8,
       shape_rendering: "crispEdges",
-      standalone: false,
+      standalone: true,
       use_path: true
     )
+    .sub(/\A<\?xml[^>]+>\s*/, "")
+    .sub("<svg ", %(<svg role="img" aria-label="QR code link to repository" ))
 end
 
 def render(summary, repo_url)
