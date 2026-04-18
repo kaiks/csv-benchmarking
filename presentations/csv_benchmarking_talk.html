@@ -242,6 +242,18 @@ pre {
   font-size: 13px;
 }
 
+.snippet-note {
+  color: #4b5563;
+  margin-bottom: 0.18in;
+  max-width: 10.8in;
+}
+
+.quick-start-code {
+  font-size: 18px;
+  line-height: 1.38;
+  min-height: 4.5in;
+}
+
 .title-slide {
   display: flex;
   flex-direction: column;
@@ -255,7 +267,7 @@ pre {
 <h1>How fast and memory hungry are Ruby CSV options?</h1>
 <p class="subtitle">A reproducible benchmark comparing stdlib CSV, SmarterCSV, Polars, Polars low-memory, and DuckDB on generated person-account data.</p>
 
-<div class="footer"><span>CSV Benchmarking</span><span>1 / 14</span></div>
+<div class="footer"><span>CSV Benchmarking</span><span>1 / 19</span></div>
 </section>
 
 <section class="slide">
@@ -285,7 +297,7 @@ pre {
   </div>
 </div>
 
-<div class="footer"><span>CSV Benchmarking</span><span>2 / 14</span></div>
+<div class="footer"><span>CSV Benchmarking</span><span>2 / 19</span></div>
 </section>
 
 <section class="slide">
@@ -301,7 +313,7 @@ pre {
 
 <p class="muted" style="margin-top:0.22in">Charts in this deck use <code>benchmarks/results/all_implementations_all_task_validation.summary.json</code>. The stored data is a one-run validation summary, not the full repeated benchmark matrix.</p>
 
-<div class="footer"><span>CSV Benchmarking</span><span>3 / 14</span></div>
+<div class="footer"><span>CSV Benchmarking</span><span>3 / 19</span></div>
 </section>
 
 <section class="slide">
@@ -322,7 +334,7 @@ pre {
 </div>
 <p class="takeaway">The <code>all</code> benchmark is also its own process. It is not a summary of the individual task runs.</p>
 
-<div class="footer"><span>CSV Benchmarking</span><span>4 / 14</span></div>
+<div class="footer"><span>CSV Benchmarking</span><span>4 / 19</span></div>
 </section>
 
 <section class="slide">
@@ -346,7 +358,7 @@ end
 puts invalid
 </pre>
 
-<div class="footer"><span>CSV Benchmarking</span><span>5 / 14</span></div>
+<div class="footer"><span>CSV Benchmarking</span><span>5 / 19</span></div>
 </section>
 
 <section class="slide">
@@ -364,7 +376,107 @@ puts invalid
 
 <p class="muted small" style="margin-top:0.18in">LOC excludes blank lines and full-line comments. Polars entries include the shared Polars implementation helper.</p>
 
-<div class="footer"><span>CSV Benchmarking</span><span>6 / 14</span></div>
+<div class="footer"><span>CSV Benchmarking</span><span>6 / 19</span></div>
+</section>
+
+<section class="slide">
+<h2>Quick Start: Ruby CSV</h2>
+<p class="snippet-note">Dedicated minimal example, not benchmark code: read <code>people.csv</code> and count rows where <code>account_balance &gt; 10000</code>.</p>
+<pre class="quick-start-code">require &quot;csv&quot;
+
+high_balance_rows = 0
+
+CSV.foreach(&quot;people.csv&quot;, headers: true) do |row|
+  balance = row[&quot;account_balance&quot;].to_f
+  high_balance_rows += 1 if balance &gt; 10_000
+end
+
+puts high_balance_rows
+</pre>
+
+<div class="footer"><span>CSV Benchmarking</span><span>7 / 19</span></div>
+</section>
+
+<section class="slide">
+<h2>Quick Start: SmarterCSV</h2>
+<p class="snippet-note">Dedicated minimal example, not benchmark code: read <code>people.csv</code> and count rows where <code>account_balance &gt; 10000</code>.</p>
+<pre class="quick-start-code">require &quot;smarter_csv&quot;
+
+high_balance_rows = 0
+
+SmarterCSV.process(&quot;people.csv&quot;, chunk_size: 10_000) do |chunk|
+  chunk.each do |row|
+    high_balance_rows += 1 if row[:account_balance] &gt; 10_000
+  end
+end
+
+puts high_balance_rows
+</pre>
+
+<div class="footer"><span>CSV Benchmarking</span><span>8 / 19</span></div>
+</section>
+
+<section class="slide">
+<h2>Quick Start: Polars</h2>
+<p class="snippet-note">Dedicated minimal example, not benchmark code: read <code>people.csv</code> and count rows where <code>account_balance &gt; 10000</code>.</p>
+<pre class="quick-start-code">require &quot;polars-df&quot;
+
+df = Polars.read_csv(
+  &quot;people.csv&quot;,
+  schema_overrides: { &quot;account_balance&quot; =&gt; Polars::Float64 }
+)
+
+result = df
+  .select((Polars.col(&quot;account_balance&quot;) &gt; 10_000).sum)
+  .row(0)
+  .first
+
+puts result
+</pre>
+
+<div class="footer"><span>CSV Benchmarking</span><span>9 / 19</span></div>
+</section>
+
+<section class="slide">
+<h2>Quick Start: Polars low memory</h2>
+<p class="snippet-note">Dedicated minimal example, not benchmark code: read <code>people.csv</code> and count rows where <code>account_balance &gt; 10000</code>.</p>
+<pre class="quick-start-code">require &quot;polars-df&quot;
+
+df = Polars.read_csv(
+  &quot;people.csv&quot;,
+  low_memory: true,
+  schema_overrides: { &quot;account_balance&quot; =&gt; Polars::Float64 }
+)
+
+result = df
+  .select((Polars.col(&quot;account_balance&quot;) &gt; 10_000).sum)
+  .row(0)
+  .first
+
+puts result
+</pre>
+
+<div class="footer"><span>CSV Benchmarking</span><span>10 / 19</span></div>
+</section>
+
+<section class="slide">
+<h2>Quick Start: DuckDB</h2>
+<p class="snippet-note">Dedicated minimal example, not benchmark code: read <code>people.csv</code> and count rows where <code>account_balance &gt; 10000</code>.</p>
+<pre class="quick-start-code">require &quot;duckdb&quot;
+
+db = DuckDB::Database.open(&quot;:memory:&quot;)
+con = db.connect
+
+result = con.query(&lt;&lt;~SQL).first.first
+  SELECT count(*)
+  FROM read_csv(&#39;people.csv&#39;, header = true, auto_detect = true)
+  WHERE account_balance &gt; 10000
+SQL
+
+puts result
+</pre>
+
+<div class="footer"><span>CSV Benchmarking</span><span>11 / 19</span></div>
 </section>
 
 <section class="slide">
@@ -475,7 +587,7 @@ puts invalid
 </svg>
 </div>
 
-<div class="footer"><span>CSV Benchmarking</span><span>7 / 14</span></div>
+<div class="footer"><span>CSV Benchmarking</span><span>12 / 19</span></div>
 </section>
 
 <section class="slide">
@@ -586,7 +698,7 @@ puts invalid
 </svg>
 </div>
 
-<div class="footer"><span>CSV Benchmarking</span><span>8 / 14</span></div>
+<div class="footer"><span>CSV Benchmarking</span><span>13 / 19</span></div>
 </section>
 
 <section class="slide">
@@ -697,7 +809,7 @@ puts invalid
 </svg>
 </div>
 
-<div class="footer"><span>CSV Benchmarking</span><span>9 / 14</span></div>
+<div class="footer"><span>CSV Benchmarking</span><span>14 / 19</span></div>
 </section>
 
 <section class="slide">
@@ -807,7 +919,7 @@ puts invalid
 </svg>
 </div>
 
-<div class="footer"><span>CSV Benchmarking</span><span>10 / 14</span></div>
+<div class="footer"><span>CSV Benchmarking</span><span>15 / 19</span></div>
 </section>
 
 <section class="slide">
@@ -967,7 +1079,7 @@ puts invalid
 </svg>
 </div>
 
-<div class="footer"><span>CSV Benchmarking</span><span>11 / 14</span></div>
+<div class="footer"><span>CSV Benchmarking</span><span>16 / 19</span></div>
 </section>
 
 <section class="slide">
@@ -1021,7 +1133,7 @@ puts invalid
 </svg>
 </div>
 
-<div class="footer"><span>CSV Benchmarking</span><span>12 / 14</span></div>
+<div class="footer"><span>CSV Benchmarking</span><span>17 / 19</span></div>
 </section>
 
 <section class="slide">
@@ -1043,7 +1155,7 @@ puts invalid
   <li>Post-load memory is the better metric when a transient parse peak is acceptable.</li>
 </ul>
 
-<div class="footer"><span>CSV Benchmarking</span><span>13 / 14</span></div>
+<div class="footer"><span>CSV Benchmarking</span><span>18 / 19</span></div>
 </section>
 
 <section class="slide">
@@ -1063,7 +1175,7 @@ puts invalid
   </div>
 </div>
 
-<div class="footer"><span>CSV Benchmarking</span><span>14 / 14</span></div>
+<div class="footer"><span>CSV Benchmarking</span><span>19 / 19</span></div>
 </section>
 
 </body>

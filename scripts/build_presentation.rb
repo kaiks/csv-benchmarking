@@ -389,6 +389,18 @@ def css
       font-size: 13px;
     }
 
+    .snippet-note {
+      color: #4b5563;
+      margin-bottom: 0.18in;
+      max-width: 10.8in;
+    }
+
+    .quick-start-code {
+      font-size: 18px;
+      line-height: 1.38;
+      min-height: 4.5in;
+    }
+
     .title-slide {
       display: flex;
       flex-direction: column;
@@ -416,6 +428,96 @@ def minimal_dob_count_code
 
     puts invalid
   RUBY
+end
+
+def quick_start_snippets
+  [
+    [
+      "Ruby CSV",
+      <<~RUBY
+        require "csv"
+
+        high_balance_rows = 0
+
+        CSV.foreach("people.csv", headers: true) do |row|
+          balance = row["account_balance"].to_f
+          high_balance_rows += 1 if balance > 10_000
+        end
+
+        puts high_balance_rows
+      RUBY
+    ],
+    [
+      "SmarterCSV",
+      <<~RUBY
+        require "smarter_csv"
+
+        high_balance_rows = 0
+
+        SmarterCSV.process("people.csv", chunk_size: 10_000) do |chunk|
+          chunk.each do |row|
+            high_balance_rows += 1 if row[:account_balance] > 10_000
+          end
+        end
+
+        puts high_balance_rows
+      RUBY
+    ],
+    [
+      "Polars",
+      <<~RUBY
+        require "polars-df"
+
+        df = Polars.read_csv(
+          "people.csv",
+          schema_overrides: { "account_balance" => Polars::Float64 }
+        )
+
+        result = df
+          .select((Polars.col("account_balance") > 10_000).sum)
+          .row(0)
+          .first
+
+        puts result
+      RUBY
+    ],
+    [
+      "Polars low memory",
+      <<~RUBY
+        require "polars-df"
+
+        df = Polars.read_csv(
+          "people.csv",
+          low_memory: true,
+          schema_overrides: { "account_balance" => Polars::Float64 }
+        )
+
+        result = df
+          .select((Polars.col("account_balance") > 10_000).sum)
+          .row(0)
+          .first
+
+        puts result
+      RUBY
+    ],
+    [
+      "DuckDB",
+      <<~RUBY
+        require "duckdb"
+
+        db = DuckDB::Database.open(":memory:")
+        con = db.connect
+
+        result = con.query(<<~SQL).first.first
+          SELECT count(*)
+          FROM read_csv('people.csv', header = true, auto_detect = true)
+          WHERE account_balance > 10000
+        SQL
+
+        puts result
+      RUBY
+    ]
+  ]
 end
 
 def qr_svg(url)
@@ -531,6 +633,14 @@ def render(summary, repo_url)
     #{table(["Implementation", "LOC", "Files counted", "Notes"], loc_rows)}
     <p class="muted small" style="margin-top:0.18in">LOC excludes blank lines and full-line comments. Polars entries include the shared Polars implementation helper.</p>
   HTML
+
+  quick_start_snippets.each do |label, code|
+    slides << slide(<<~HTML)
+      <h2>Quick Start: #{esc(label)}</h2>
+      <p class="snippet-note">Dedicated minimal example, not benchmark code: read <code>people.csv</code> and count rows where <code>account_balance &gt; 10000</code>.</p>
+      <pre class="quick-start-code">#{esc(code)}</pre>
+    HTML
+  end
 
   [["1K all tasks", "All Tasks: 1K Rows"], ["10K all tasks", "All Tasks: 10K Rows"], ["1M all tasks", "All Tasks: 1M Rows"]].each do |chart_name, title|
     slides << slide(<<~HTML)
