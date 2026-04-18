@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="470" viewBox="0 0 880 470" role="img" aria-label="Notable Result: Large File Speedup">
+  <style>
+    .bg { fill: #fafafa; }
+    .title { fill: #111827; font: 700 24px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .subtitle { fill: #4b5563; font: 400 13px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .panel-title { fill: #111827; font: 700 16px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .axis { stroke: #374151; stroke-width: 1; }
+    .grid { stroke: #e5e7eb; stroke-width: 1; }
+    .axis-label, .x-label { fill: #4b5563; font: 400 11px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .value-label { fill: #111827; font: 600 10px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .note { fill: #4b5563; font: 400 12px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .legend-text { fill: #111827; font: 500 12px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  </style>
+  <rect width="100%" height="100%" class="bg"/>
+  <text x="32" y="38" class="title">Notable Result: Large File Speedup</text>
+  <text x="32" y="60" class="subtitle">Derived from independent task=all runs; Ruby CSV is the 1.0x baseline.</text>
+  <text x="32" y="86" class="panel-title">Speedup vs Ruby CSV on 1M rows</text>
+<line x1="112" y1="378.0" x2="838" y2="378.0" class="grid"/>
+<text x="102" y="382.0" class="axis-label" text-anchor="end">0x</text>
+<line x1="112" y1="311.5" x2="838" y2="311.5" class="grid"/>
+<text x="102" y="315.5" class="axis-label" text-anchor="end">6.50x</text>
+<line x1="112" y1="245.0" x2="838" y2="245.0" class="grid"/>
+<text x="102" y="249.0" class="axis-label" text-anchor="end">13.0x</text>
+<line x1="112" y1="178.5" x2="838" y2="178.5" class="grid"/>
+<text x="102" y="182.5" class="axis-label" text-anchor="end">19.5x</text>
+<line x1="112" y1="112.0" x2="838" y2="112.0" class="grid"/>
+<text x="102" y="116.0" class="axis-label" text-anchor="end">26.0x</text>
+<line x1="112" y1="378" x2="838" y2="378" class="axis"/>
+<line x1="112" y1="112" x2="112" y2="378" class="axis"/>
+<rect x="112.0" y="367.77" width="132.4" height="10.23" fill="#0f766e"/>
+<text x="178.2" y="359.77" class="value-label" text-anchor="middle">1.0x</text>
+<text x="178.2" y="396" class="x-label" text-anchor="end" transform="rotate(-35 178.2 396)">Ruby CSV</text>
+<rect x="260.4" y="346.39" width="132.4" height="31.61" fill="#2563eb"/>
+<text x="326.6" y="338.39" class="value-label" text-anchor="middle">3.1x</text>
+<text x="326.6" y="396" class="x-label" text-anchor="end" transform="rotate(-35 326.6 396)">SmarterCSV</text>
+<rect x="408.8" y="146.7" width="132.4" height="231.3" fill="#dc2626"/>
+<text x="475.0" y="138.7" class="value-label" text-anchor="middle">22.6x</text>
+<text x="475.0" y="396" class="x-label" text-anchor="end" transform="rotate(-35 475.0 396)">Polars</text>
+<rect x="557.2" y="155.63" width="132.4" height="222.37" fill="#7c3aed"/>
+<text x="623.4" y="147.63" class="value-label" text-anchor="middle">21.7x</text>
+<text x="623.4" y="396" class="x-label" text-anchor="end" transform="rotate(-35 623.4 396)">Polars low memory</text>
+<rect x="705.6" y="212.23" width="132.4" height="165.77" fill="#ca8a04"/>
+<text x="771.8" y="204.23" class="value-label" text-anchor="middle">16.2x</text>
+<text x="771.8" y="396" class="x-label" text-anchor="end" transform="rotate(-35 771.8 396)">DuckDB</text>
+<text x="32" y="440" class="note">This is the notable outlier: vectorized engines are much faster on the largest available file, while Ruby parsers are competitive on tiny files.</text>
+
+</svg>

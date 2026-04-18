@@ -1,0 +1,39 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    bigdecimal (4.1.2)
+    polars-df (0.25.1-aarch64-linux)
+      bigdecimal
+    polars-df (0.25.1-aarch64-linux-musl)
+      bigdecimal
+    polars-df (0.25.1-arm64-darwin)
+      bigdecimal
+    polars-df (0.25.1-x86_64-darwin)
+      bigdecimal
+    polars-df (0.25.1-x86_64-linux)
+      bigdecimal
+    polars-df (0.25.1-x86_64-linux-musl)
+      bigdecimal
+
+PLATFORMS
+  aarch64-linux
+  aarch64-linux-musl
+  arm64-darwin
+  x86_64-darwin
+  x86_64-linux
+  x86_64-linux-musl
+
+DEPENDENCIES
+  polars-df (= 0.25.1)
+
+CHECKSUMS
+  bigdecimal (4.1.2) sha256=53d217666027eab4280346fba98e7d5b66baaae1b9c3c1c0ffe89d48188a3fbd
+  polars-df (0.25.1-aarch64-linux) sha256=b2c0afb7b6a608864e62eb7847c655fb96b1e3a1975865ed46338177b19f404d
+  polars-df (0.25.1-aarch64-linux-musl) sha256=97b8107ef1518c53b9eca6c559baad84fe968d5a7e9c6e86b96c4ac13f602edc
+  polars-df (0.25.1-arm64-darwin) sha256=34bdc3dc9bca2625cbb6217591f215c31e491c91573a3ade4256e84b2acf976f
+  polars-df (0.25.1-x86_64-darwin) sha256=5cbae3dad6548e60d767ff9b974f709282abe45f8ba6b0e5a93a81e589fb668c
+  polars-df (0.25.1-x86_64-linux) sha256=fdbfdbcd9629e63d94f5f5100c7b93fbb88e8c6397830e3f0688407f6684dedb
+  polars-df (0.25.1-x86_64-linux-musl) sha256=f1f11b5f24fdce75bb43153be07b2c47db8a1f51457d8935ee5c4fad15143f93
+
+BUNDLED WITH
+  4.0.6

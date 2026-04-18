@@ -1,0 +1,17 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    smarter_csv (1.16.3)
+
+PLATFORMS
+  ruby
+  x86_64-linux
+
+DEPENDENCIES
+  smarter_csv (= 1.16.3)
+
+CHECKSUMS
+  smarter_csv (1.16.3) sha256=3f7fd0b62bd58552f43da6a25a484a8dfd4ab60b6025dcb3184ce6f66488311f
+
+BUNDLED WITH
+  4.0.6

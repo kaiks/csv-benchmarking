@@ -1,0 +1,20 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    bigdecimal (4.1.2)
+    duckdb (1.5.2.0)
+      bigdecimal (>= 3.1.4)
+
+PLATFORMS
+  ruby
+  x86_64-linux
+
+DEPENDENCIES
+  duckdb (= 1.5.2.0)
+
+CHECKSUMS
+  bigdecimal (4.1.2) sha256=53d217666027eab4280346fba98e7d5b66baaae1b9c3c1c0ffe89d48188a3fbd
+  duckdb (1.5.2.0) sha256=e9c83c20a631abdd70d158e6cf1e99c0fbdff5a7e830faa33a0f954669d11630
+
+BUNDLED WITH
+  4.0.6

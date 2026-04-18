@@ -1,0 +1,27 @@
+[
+  {
+    "name": "ruby_csv_default",
+    "script": "implementations/ruby_csv_default.rb",
+    "gemfile": "implementations/gemfiles/ruby_csv_default.gemfile"
+  },
+  {
+    "name": "smarter_csv",
+    "script": "implementations/smarter_csv.rb",
+    "gemfile": "implementations/gemfiles/smarter_csv.gemfile"
+  },
+  {
+    "name": "polars",
+    "script": "implementations/polars.rb",
+    "gemfile": "implementations/gemfiles/polars.gemfile"
+  },
+  {
+    "name": "polars_low_memory",
+    "script": "implementations/polars_low_memory.rb",
+    "gemfile": "implementations/gemfiles/polars.gemfile"
+  },
+  {
+    "name": "duckdb",
+    "script": "implementations/duckdb.rb",
+    "gemfile": "implementations/gemfiles/duckdb.gemfile"
+  }
+]

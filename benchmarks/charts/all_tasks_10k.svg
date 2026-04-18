@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="900" viewBox="0 0 1120 900" role="img" aria-label="All Tasks Run: 10K rows">
+  <style>
+    .bg { fill: #fafafa; }
+    .title { fill: #111827; font: 700 24px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .subtitle { fill: #4b5563; font: 400 13px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .panel-title { fill: #111827; font: 700 16px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .axis { stroke: #374151; stroke-width: 1; }
+    .grid { stroke: #e5e7eb; stroke-width: 1; }
+    .axis-label, .x-label { fill: #4b5563; font: 400 11px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .value-label { fill: #111827; font: 600 10px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .note { fill: #4b5563; font: 400 12px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .legend-text { fill: #111827; font: 500 12px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  </style>
+  <rect width="100%" height="100%" class="bg"/>
+  <text x="32" y="38" class="title">All Tasks Run: 10K rows</text>
+  <text x="32" y="60" class="subtitle">Each bar is one independent Docker-measured run of task=all; lower is better.</text>
+  <text x="32" y="112" class="panel-title">Runtime</text>
+<line x1="90" y1="390.0" x2="534" y2="390.0" class="grid"/>
+<text x="80" y="394.0" class="axis-label" text-anchor="end">0</text>
+<line x1="90" y1="326.0" x2="534" y2="326.0" class="grid"/>
+<text x="80" y="330.0" class="axis-label" text-anchor="end">0.176</text>
+<line x1="90" y1="262.0" x2="534" y2="262.0" class="grid"/>
+<text x="80" y="266.0" class="axis-label" text-anchor="end">0.353</text>
+<line x1="90" y1="198.0" x2="534" y2="198.0" class="grid"/>
+<text x="80" y="202.0" class="axis-label" text-anchor="end">0.529</text>
+<line x1="90" y1="134.0" x2="534" y2="134.0" class="grid"/>
+<text x="80" y="138.0" class="axis-label" text-anchor="end">0.705</text>
+<line x1="90" y1="390" x2="534" y2="390" class="axis"/>
+<line x1="90" y1="134" x2="90" y2="390" class="axis"/>
+<rect x="90.0" y="171.44" width="77.6" height="218.56" fill="#0f766e"/>
+<text x="128.8" y="164.44" class="value-label" text-anchor="middle">0.602 s</text>
+<text x="128.8" y="408" class="x-label" text-anchor="end" transform="rotate(-35 128.8 408)">Ruby CSV</text>
+<rect x="181.6" y="161.43" width="77.6" height="228.57" fill="#2563eb"/>
+<text x="220.4" y="154.43" class="value-label" text-anchor="middle">0.630 s</text>
+<text x="220.4" y="408" class="x-label" text-anchor="end" transform="rotate(-35 220.4 408)">SmarterCSV</text>
+<rect x="273.2" y="204.47" width="77.6" height="185.53" fill="#dc2626"/>
+<text x="312.0" y="197.47" class="value-label" text-anchor="middle">0.511 s</text>
+<text x="312.0" y="408" class="x-label" text-anchor="end" transform="rotate(-35 312.0 408)">Polars</text>
+<rect x="364.8" y="202.17" width="77.6" height="187.83" fill="#7c3aed"/>
+<text x="403.6" y="195.17" class="value-label" text-anchor="middle">0.517 s</text>
+<text x="403.6" y="408" class="x-label" text-anchor="end" transform="rotate(-35 403.6 408)">Polars low memory</text>
+<rect x="456.4" y="193.82" width="77.6" height="196.18" fill="#ca8a04"/>
+<text x="495.2" y="186.82" class="value-label" text-anchor="middle">0.540 s</text>
+<text x="495.2" y="408" class="x-label" text-anchor="end" transform="rotate(-35 495.2 408)">DuckDB</text>
+<text x="584" y="112" class="panel-title">Peak anonymous memory</text>
+<line x1="642" y1="390.0" x2="1070" y2="390.0" class="grid"/>
+<text x="632" y="394.0" class="axis-label" text-anchor="end">0</text>
+<line x1="642" y1="326.0" x2="1070" y2="326.0" class="grid"/>
+<text x="632" y="330.0" class="axis-label" text-anchor="end">10.4</text>
+<line x1="642" y1="262.0" x2="1070" y2="262.0" class="grid"/>
+<text x="632" y="266.0" class="axis-label" text-anchor="end">20.8</text>
+<line x1="642" y1="198.0" x2="1070" y2="198.0" class="grid"/>
+<text x="632" y="202.0" class="axis-label" text-anchor="end">31.2</text>
+<line x1="642" y1="134.0" x2="1070" y2="134.0" class="grid"/>
+<text x="632" y="138.0" class="axis-label" text-anchor="end">41.6</text>
+<line x1="642" y1="390" x2="1070" y2="390" class="axis"/>
+<line x1="642" y1="134" x2="642" y2="390" class="axis"/>
+<rect x="642.0" y="234.89" width="74.4" height="155.11" fill="#0f766e"/>
+<text x="679.2" y="227.89" class="value-label" text-anchor="middle">25.2 MiB</text>
+<text x="679.2" y="408" class="x-label" text-anchor="end" transform="rotate(-35 679.2 408)">Ruby CSV</text>
+<rect x="730.4" y="219.91" width="74.4" height="170.09" fill="#2563eb"/>
+<text x="767.6" y="212.91" class="value-label" text-anchor="middle">27.6 MiB</text>
+<text x="767.6" y="408" class="x-label" text-anchor="end" transform="rotate(-35 767.6 408)">SmarterCSV</text>
+<rect x="818.8" y="179.89" width="74.4" height="210.11" fill="#dc2626"/>
+<text x="856.0" y="172.89" class="value-label" text-anchor="middle">34.1 MiB</text>
+<text x="856.0" y="408" class="x-label" text-anchor="end" transform="rotate(-35 856.0 408)">Polars</text>
+<rect x="907.2" y="179.12" width="74.4" height="210.88" fill="#7c3aed"/>
+<text x="944.4" y="172.12" class="value-label" text-anchor="middle">34.3 MiB</text>
+<text x="944.4" y="408" class="x-label" text-anchor="end" transform="rotate(-35 944.4 408)">Polars low memory</text>
+<rect x="995.6" y="161.43" width="74.4" height="228.57" fill="#ca8a04"/>
+<text x="1032.8" y="154.43" class="value-label" text-anchor="middle">37.1 MiB</text>
+<text x="1032.8" y="408" class="x-label" text-anchor="end" transform="rotate(-35 1032.8 408)">DuckDB</text>
+<text x="32" y="532" class="panel-title">Post-load anonymous memory</text>
+<line x1="90" y1="730.0" x2="1070" y2="730.0" class="grid"/>
+<text x="80" y="734.0" class="axis-label" text-anchor="end">0</text>
+<line x1="90" y1="686.0" x2="1070" y2="686.0" class="grid"/>
+<text x="80" y="690.0" class="axis-label" text-anchor="end">9.01</text>
+<line x1="90" y1="642.0" x2="1070" y2="642.0" class="grid"/>
+<text x="80" y="646.0" class="axis-label" text-anchor="end">18.0</text>
+<line x1="90" y1="598.0" x2="1070" y2="598.0" class="grid"/>
+<text x="80" y="602.0" class="axis-label" text-anchor="end">27.0</text>
+<line x1="90" y1="554.0" x2="1070" y2="554.0" class="grid"/>
+<text x="80" y="558.0" class="axis-label" text-anchor="end">36.1</text>
+<line x1="90" y1="730" x2="1070" y2="730" class="axis"/>
+<line x1="90" y1="554" x2="90" y2="730" class="axis"/>
+<rect x="90.0" y="606.97" width="184.8" height="123.03" fill="#0f766e"/>
+<text x="182.4" y="599.97" class="value-label" text-anchor="middle">25.2 MiB</text>
+<text x="182.4" y="748" class="x-label" text-anchor="end" transform="rotate(-35 182.4 748)">Ruby CSV</text>
+<rect x="288.8" y="595.09" width="184.8" height="134.91" fill="#2563eb"/>
+<text x="381.2" y="588.09" class="value-label" text-anchor="middle">27.6 MiB</text>
+<text x="381.2" y="748" class="x-label" text-anchor="end" transform="rotate(-35 381.2 748)">SmarterCSV</text>
+<rect x="487.6" y="572.86" width="184.8" height="157.14" fill="#dc2626"/>
+<text x="580.0" y="565.86" class="value-label" text-anchor="middle">32.2 MiB</text>
+<text x="580.0" y="748" class="x-label" text-anchor="end" transform="rotate(-35 580.0 748)">Polars</text>
+<rect x="686.4" y="575.95" width="184.8" height="154.05" fill="#7c3aed"/>
+<text x="778.8" y="568.95" class="value-label" text-anchor="middle">31.6 MiB</text>
+<text x="778.8" y="748" class="x-label" text-anchor="end" transform="rotate(-35 778.8 748)">Polars low memory</text>
+<rect x="885.2" y="573.83" width="184.8" height="156.17" fill="#ca8a04"/>
+<text x="977.6" y="566.83" class="value-label" text-anchor="middle">32.0 MiB</text>
+<text x="977.6" y="748" class="x-label" text-anchor="end" transform="rotate(-35 977.6 748)">DuckDB</text>
+<text x="32" y="864" class="note">Correctness: 5 correct runs, 0 incorrect runs.</text>
+<text x="32" y="884" class="note">Post-load memory is useful when a short parsing peak is acceptable and the loaded representation will be reused for multiple operations.</text>
+
+</svg>
