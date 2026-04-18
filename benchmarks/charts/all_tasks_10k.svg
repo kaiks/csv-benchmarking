@@ -18,29 +18,29 @@
 <line x1="90" y1="390.0" x2="534" y2="390.0" class="grid"/>
 <text x="80" y="394.0" class="axis-label" text-anchor="end">0</text>
 <line x1="90" y1="326.0" x2="534" y2="326.0" class="grid"/>
-<text x="80" y="330.0" class="axis-label" text-anchor="end">0.176</text>
+<text x="80" y="330.0" class="axis-label" text-anchor="end">0.169</text>
 <line x1="90" y1="262.0" x2="534" y2="262.0" class="grid"/>
-<text x="80" y="266.0" class="axis-label" text-anchor="end">0.353</text>
+<text x="80" y="266.0" class="axis-label" text-anchor="end">0.339</text>
 <line x1="90" y1="198.0" x2="534" y2="198.0" class="grid"/>
-<text x="80" y="202.0" class="axis-label" text-anchor="end">0.529</text>
+<text x="80" y="202.0" class="axis-label" text-anchor="end">0.508</text>
 <line x1="90" y1="134.0" x2="534" y2="134.0" class="grid"/>
-<text x="80" y="138.0" class="axis-label" text-anchor="end">0.705</text>
+<text x="80" y="138.0" class="axis-label" text-anchor="end">0.677</text>
 <line x1="90" y1="390" x2="534" y2="390" class="axis"/>
 <line x1="90" y1="134" x2="90" y2="390" class="axis"/>
-<rect x="90.0" y="171.44" width="77.6" height="218.56" fill="#0f766e"/>
-<text x="128.8" y="164.44" class="value-label" text-anchor="middle">0.602 s</text>
+<rect x="90.0" y="161.43" width="77.6" height="228.57" fill="#0f766e"/>
+<text x="128.8" y="154.43" class="value-label" text-anchor="middle">0.605 s</text>
 <text x="128.8" y="408" class="x-label" text-anchor="end" transform="rotate(-35 128.8 408)">Ruby CSV</text>
-<rect x="181.6" y="161.43" width="77.6" height="228.57" fill="#2563eb"/>
-<text x="220.4" y="154.43" class="value-label" text-anchor="middle">0.630 s</text>
+<rect x="181.6" y="200.54" width="77.6" height="189.46" fill="#2563eb"/>
+<text x="220.4" y="193.54" class="value-label" text-anchor="middle">0.501 s</text>
 <text x="220.4" y="408" class="x-label" text-anchor="end" transform="rotate(-35 220.4 408)">SmarterCSV</text>
-<rect x="273.2" y="204.47" width="77.6" height="185.53" fill="#dc2626"/>
-<text x="312.0" y="197.47" class="value-label" text-anchor="middle">0.511 s</text>
+<rect x="273.2" y="193.46" width="77.6" height="196.54" fill="#dc2626"/>
+<text x="312.0" y="186.46" class="value-label" text-anchor="middle">0.520 s</text>
 <text x="312.0" y="408" class="x-label" text-anchor="end" transform="rotate(-35 312.0 408)">Polars</text>
-<rect x="364.8" y="202.17" width="77.6" height="187.83" fill="#7c3aed"/>
-<text x="403.6" y="195.17" class="value-label" text-anchor="middle">0.517 s</text>
+<rect x="364.8" y="197.43" width="77.6" height="192.57" fill="#7c3aed"/>
+<text x="403.6" y="190.43" class="value-label" text-anchor="middle">0.509 s</text>
 <text x="403.6" y="408" class="x-label" text-anchor="end" transform="rotate(-35 403.6 408)">Polars low memory</text>
-<rect x="456.4" y="193.82" width="77.6" height="196.18" fill="#ca8a04"/>
-<text x="495.2" y="186.82" class="value-label" text-anchor="middle">0.540 s</text>
+<rect x="456.4" y="198.31" width="77.6" height="191.69" fill="#ca8a04"/>
+<text x="495.2" y="191.31" class="value-label" text-anchor="middle">0.507 s</text>
 <text x="495.2" y="408" class="x-label" text-anchor="end" transform="rotate(-35 495.2 408)">DuckDB</text>
 <text x="584" y="112" class="panel-title">Peak anonymous memory</text>
 <line x1="642" y1="390.0" x2="1070" y2="390.0" class="grid"/>
@@ -55,20 +55,20 @@
 <text x="632" y="138.0" class="axis-label" text-anchor="end">41.6</text>
 <line x1="642" y1="390" x2="1070" y2="390" class="axis"/>
 <line x1="642" y1="134" x2="642" y2="390" class="axis"/>
-<rect x="642.0" y="234.89" width="74.4" height="155.11" fill="#0f766e"/>
-<text x="679.2" y="227.89" class="value-label" text-anchor="middle">25.2 MiB</text>
+<rect x="642.0" y="234.76" width="74.4" height="155.24" fill="#0f766e"/>
+<text x="679.2" y="227.76" class="value-label" text-anchor="middle">25.2 MiB</text>
 <text x="679.2" y="408" class="x-label" text-anchor="end" transform="rotate(-35 679.2 408)">Ruby CSV</text>
-<rect x="730.4" y="219.91" width="74.4" height="170.09" fill="#2563eb"/>
-<text x="767.6" y="212.91" class="value-label" text-anchor="middle">27.6 MiB</text>
+<rect x="730.4" y="220.73" width="74.4" height="169.27" fill="#2563eb"/>
+<text x="767.6" y="213.73" class="value-label" text-anchor="middle">27.5 MiB</text>
 <text x="767.6" y="408" class="x-label" text-anchor="end" transform="rotate(-35 767.6 408)">SmarterCSV</text>
-<rect x="818.8" y="179.89" width="74.4" height="210.11" fill="#dc2626"/>
-<text x="856.0" y="172.89" class="value-label" text-anchor="middle">34.1 MiB</text>
+<rect x="818.8" y="179.18" width="74.4" height="210.82" fill="#dc2626"/>
+<text x="856.0" y="172.18" class="value-label" text-anchor="middle">34.3 MiB</text>
 <text x="856.0" y="408" class="x-label" text-anchor="end" transform="rotate(-35 856.0 408)">Polars</text>
-<rect x="907.2" y="179.12" width="74.4" height="210.88" fill="#7c3aed"/>
-<text x="944.4" y="172.12" class="value-label" text-anchor="middle">34.3 MiB</text>
+<rect x="907.2" y="176.52" width="74.4" height="213.48" fill="#7c3aed"/>
+<text x="944.4" y="169.52" class="value-label" text-anchor="middle">34.7 MiB</text>
 <text x="944.4" y="408" class="x-label" text-anchor="end" transform="rotate(-35 944.4 408)">Polars low memory</text>
 <rect x="995.6" y="161.43" width="74.4" height="228.57" fill="#ca8a04"/>
-<text x="1032.8" y="154.43" class="value-label" text-anchor="middle">37.1 MiB</text>
+<text x="1032.8" y="154.43" class="value-label" text-anchor="middle">37.2 MiB</text>
 <text x="1032.8" y="408" class="x-label" text-anchor="end" transform="rotate(-35 1032.8 408)">DuckDB</text>
 <text x="32" y="532" class="panel-title">Post-load anonymous memory</text>
 <line x1="90" y1="730.0" x2="1070" y2="730.0" class="grid"/>
@@ -80,23 +80,23 @@
 <line x1="90" y1="598.0" x2="1070" y2="598.0" class="grid"/>
 <text x="80" y="602.0" class="axis-label" text-anchor="end">27.0</text>
 <line x1="90" y1="554.0" x2="1070" y2="554.0" class="grid"/>
-<text x="80" y="558.0" class="axis-label" text-anchor="end">36.1</text>
+<text x="80" y="558.0" class="axis-label" text-anchor="end">36.0</text>
 <line x1="90" y1="730" x2="1070" y2="730" class="axis"/>
 <line x1="90" y1="554" x2="90" y2="730" class="axis"/>
-<rect x="90.0" y="606.97" width="184.8" height="123.03" fill="#0f766e"/>
-<text x="182.4" y="599.97" class="value-label" text-anchor="middle">25.2 MiB</text>
+<rect x="90.0" y="606.78" width="184.8" height="123.22" fill="#0f766e"/>
+<text x="182.4" y="599.78" class="value-label" text-anchor="middle">25.2 MiB</text>
 <text x="182.4" y="748" class="x-label" text-anchor="end" transform="rotate(-35 182.4 748)">Ruby CSV</text>
-<rect x="288.8" y="595.09" width="184.8" height="134.91" fill="#2563eb"/>
-<text x="381.2" y="588.09" class="value-label" text-anchor="middle">27.6 MiB</text>
+<rect x="288.8" y="595.65" width="184.8" height="134.35" fill="#2563eb"/>
+<text x="381.2" y="588.65" class="value-label" text-anchor="middle">27.5 MiB</text>
 <text x="381.2" y="748" class="x-label" text-anchor="end" transform="rotate(-35 381.2 748)">SmarterCSV</text>
 <rect x="487.6" y="572.86" width="184.8" height="157.14" fill="#dc2626"/>
 <text x="580.0" y="565.86" class="value-label" text-anchor="middle">32.2 MiB</text>
 <text x="580.0" y="748" class="x-label" text-anchor="end" transform="rotate(-35 580.0 748)">Polars</text>
-<rect x="686.4" y="575.95" width="184.8" height="154.05" fill="#7c3aed"/>
-<text x="778.8" y="568.95" class="value-label" text-anchor="middle">31.6 MiB</text>
+<rect x="686.4" y="576.06" width="184.8" height="153.94" fill="#7c3aed"/>
+<text x="778.8" y="569.06" class="value-label" text-anchor="middle">31.5 MiB</text>
 <text x="778.8" y="748" class="x-label" text-anchor="end" transform="rotate(-35 778.8 748)">Polars low memory</text>
-<rect x="885.2" y="573.83" width="184.8" height="156.17" fill="#ca8a04"/>
-<text x="977.6" y="566.83" class="value-label" text-anchor="middle">32.0 MiB</text>
+<rect x="885.2" y="576.42" width="184.8" height="153.58" fill="#ca8a04"/>
+<text x="977.6" y="569.42" class="value-label" text-anchor="middle">31.5 MiB</text>
 <text x="977.6" y="748" class="x-label" text-anchor="end" transform="rotate(-35 977.6 748)">DuckDB</text>
 <text x="32" y="864" class="note">Correctness: 5 correct runs, 0 incorrect runs.</text>
 <text x="32" y="884" class="note">Post-load memory is useful when a short parsing peak is acceptable and the loaded representation will be reused for multiple operations.</text>

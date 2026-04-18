@@ -367,7 +367,7 @@ puts invalid
   <thead><tr><th>Implementation</th><th>LOC</th><th>Files counted</th><th>Notes</th></tr></thead>
   <tbody>
     <tr><td>Ruby CSV</td><td>197</td><td>implementations/ruby_csv_default.rb</td><td>stdlib CSV.foreach baseline</td></tr>
-<tr><td>SmarterCSV</td><td>134</td><td>implementations/smarter_csv.rb</td><td>chunked rows from smarter_csv 1.16.3</td></tr>
+<tr><td>SmarterCSV</td><td>158</td><td>implementations/smarter_csv.rb</td><td>chunked rows from smarter_csv 1.16.3</td></tr>
 <tr><td>Polars</td><td>121</td><td>implementations/polars.rb + implementations/polars_common.rb</td><td>polars-df 0.25.1 eager read</td></tr>
 <tr><td>Polars low memory</td><td>121</td><td>implementations/polars_low_memory.rb + implementations/polars_common.rb</td><td>same Polars code path with low_memory: true</td></tr>
 <tr><td>DuckDB</td><td>145</td><td>implementations/duckdb.rb</td><td>duckdb 1.5.2.0 Ruby binding</td></tr>
@@ -402,12 +402,18 @@ puts high_balance_rows
 <p class="snippet-note">Dedicated minimal example, not benchmark code: read <code>people.csv</code> and count rows where <code>account_balance &gt; 10000</code>.</p>
 <pre class="quick-start-code">require &quot;smarter_csv&quot;
 
+csv_options = {
+  chunk_size: 10_000, col_sep: &quot;,&quot;, row_sep: &quot;\n&quot;,
+  headers: { only: :account_balance },
+  convert_values_to_numeric: { only: :account_balance },
+  quote_escaping: :double_quotes,
+  strip_whitespace: false, verbose: :quiet
+}
+
 high_balance_rows = 0
 
-SmarterCSV.process(&quot;people.csv&quot;, chunk_size: 10_000) do |chunk|
-  chunk.each do |row|
-    high_balance_rows += 1 if row[:account_balance] &gt; 10_000
-  end
+SmarterCSV.process(&quot;people.csv&quot;, csv_options) do |rows|
+  rows.each { |r| high_balance_rows += 1 if r[:account_balance] &gt; 10_000 }
 end
 
 puts high_balance_rows
@@ -501,54 +507,54 @@ puts result
 <line x1="90" y1="390.0" x2="534" y2="390.0" class="grid"/>
 <text x="80" y="394.0" class="axis-label" text-anchor="end">0</text>
 <line x1="90" y1="326.0" x2="534" y2="326.0" class="grid"/>
-<text x="80" y="330.0" class="axis-label" text-anchor="end">0.179</text>
+<text x="80" y="330.0" class="axis-label" text-anchor="end">0.173</text>
 <line x1="90" y1="262.0" x2="534" y2="262.0" class="grid"/>
-<text x="80" y="266.0" class="axis-label" text-anchor="end">0.359</text>
+<text x="80" y="266.0" class="axis-label" text-anchor="end">0.346</text>
 <line x1="90" y1="198.0" x2="534" y2="198.0" class="grid"/>
-<text x="80" y="202.0" class="axis-label" text-anchor="end">0.538</text>
+<text x="80" y="202.0" class="axis-label" text-anchor="end">0.520</text>
 <line x1="90" y1="134.0" x2="534" y2="134.0" class="grid"/>
-<text x="80" y="138.0" class="axis-label" text-anchor="end">0.717</text>
+<text x="80" y="138.0" class="axis-label" text-anchor="end">0.693</text>
 <line x1="90" y1="390" x2="534" y2="390" class="axis"/>
 <line x1="90" y1="134" x2="90" y2="390" class="axis"/>
-<rect x="90.0" y="214.76" width="77.6" height="175.24" fill="#0f766e"/>
-<text x="128.8" y="207.76" class="value-label" text-anchor="middle">0.491 s</text>
+<rect x="90.0" y="203.29" width="77.6" height="186.71" fill="#0f766e"/>
+<text x="128.8" y="196.29" class="value-label" text-anchor="middle">0.505 s</text>
 <text x="128.8" y="408" class="x-label" text-anchor="end" transform="rotate(-35 128.8 408)">Ruby CSV</text>
-<rect x="181.6" y="225.12" width="77.6" height="164.88" fill="#2563eb"/>
-<text x="220.4" y="218.12" class="value-label" text-anchor="middle">0.462 s</text>
+<rect x="181.6" y="219.18" width="77.6" height="170.82" fill="#2563eb"/>
+<text x="220.4" y="212.18" class="value-label" text-anchor="middle">0.462 s</text>
 <text x="220.4" y="408" class="x-label" text-anchor="end" transform="rotate(-35 220.4 408)">SmarterCSV</text>
-<rect x="273.2" y="161.43" width="77.6" height="228.57" fill="#dc2626"/>
-<text x="312.0" y="154.43" class="value-label" text-anchor="middle">0.640 s</text>
+<rect x="273.2" y="166.1" width="77.6" height="223.9" fill="#dc2626"/>
+<text x="312.0" y="159.1" class="value-label" text-anchor="middle">0.606 s</text>
 <text x="312.0" y="408" class="x-label" text-anchor="end" transform="rotate(-35 312.0 408)">Polars</text>
-<rect x="364.8" y="210.45" width="77.6" height="179.55" fill="#7c3aed"/>
-<text x="403.6" y="203.45" class="value-label" text-anchor="middle">0.503 s</text>
+<rect x="364.8" y="195.32" width="77.6" height="194.68" fill="#7c3aed"/>
+<text x="403.6" y="188.32" class="value-label" text-anchor="middle">0.527 s</text>
 <text x="403.6" y="408" class="x-label" text-anchor="end" transform="rotate(-35 403.6 408)">Polars low memory</text>
-<rect x="456.4" y="191.97" width="77.6" height="198.03" fill="#ca8a04"/>
-<text x="495.2" y="184.97" class="value-label" text-anchor="middle">0.555 s</text>
+<rect x="456.4" y="161.43" width="77.6" height="228.57" fill="#ca8a04"/>
+<text x="495.2" y="154.43" class="value-label" text-anchor="middle">0.619 s</text>
 <text x="495.2" y="408" class="x-label" text-anchor="end" transform="rotate(-35 495.2 408)">DuckDB</text>
 <text x="584" y="112" class="panel-title">Peak anonymous memory</text>
 <line x1="642" y1="390.0" x2="1070" y2="390.0" class="grid"/>
 <text x="632" y="394.0" class="axis-label" text-anchor="end">0</text>
 <line x1="642" y1="326.0" x2="1070" y2="326.0" class="grid"/>
-<text x="632" y="330.0" class="axis-label" text-anchor="end">9.12</text>
+<text x="632" y="330.0" class="axis-label" text-anchor="end">9.13</text>
 <line x1="642" y1="262.0" x2="1070" y2="262.0" class="grid"/>
-<text x="632" y="266.0" class="axis-label" text-anchor="end">18.2</text>
+<text x="632" y="266.0" class="axis-label" text-anchor="end">18.3</text>
 <line x1="642" y1="198.0" x2="1070" y2="198.0" class="grid"/>
 <text x="632" y="202.0" class="axis-label" text-anchor="end">27.4</text>
 <line x1="642" y1="134.0" x2="1070" y2="134.0" class="grid"/>
 <text x="632" y="138.0" class="axis-label" text-anchor="end">36.5</text>
 <line x1="642" y1="390" x2="1070" y2="390" class="axis"/>
 <line x1="642" y1="134" x2="642" y2="390" class="axis"/>
-<rect x="642.0" y="233.3" width="74.4" height="156.7" fill="#0f766e"/>
-<text x="679.2" y="226.3" class="value-label" text-anchor="middle">22.3 MiB</text>
+<rect x="642.0" y="229.44" width="74.4" height="160.56" fill="#0f766e"/>
+<text x="679.2" y="222.44" class="value-label" text-anchor="middle">22.9 MiB</text>
 <text x="679.2" y="408" class="x-label" text-anchor="end" transform="rotate(-35 679.2 408)">Ruby CSV</text>
-<rect x="730.4" y="229.18" width="74.4" height="160.82" fill="#2563eb"/>
-<text x="767.6" y="222.18" class="value-label" text-anchor="middle">22.9 MiB</text>
+<rect x="730.4" y="232.53" width="74.4" height="157.47" fill="#2563eb"/>
+<text x="767.6" y="225.53" class="value-label" text-anchor="middle">22.5 MiB</text>
 <text x="767.6" y="408" class="x-label" text-anchor="end" transform="rotate(-35 767.6 408)">SmarterCSV</text>
-<rect x="818.8" y="166.25" width="74.4" height="223.75" fill="#dc2626"/>
-<text x="856.0" y="159.25" class="value-label" text-anchor="middle">31.9 MiB</text>
+<rect x="818.8" y="167.95" width="74.4" height="222.05" fill="#dc2626"/>
+<text x="856.0" y="160.95" class="value-label" text-anchor="middle">31.7 MiB</text>
 <text x="856.0" y="408" class="x-label" text-anchor="end" transform="rotate(-35 856.0 408)">Polars</text>
-<rect x="907.2" y="164.03" width="74.4" height="225.97" fill="#7c3aed"/>
-<text x="944.4" y="157.03" class="value-label" text-anchor="middle">32.2 MiB</text>
+<rect x="907.2" y="168.55" width="74.4" height="221.45" fill="#7c3aed"/>
+<text x="944.4" y="161.55" class="value-label" text-anchor="middle">31.6 MiB</text>
 <text x="944.4" y="408" class="x-label" text-anchor="end" transform="rotate(-35 944.4 408)">Polars low memory</text>
 <rect x="995.6" y="161.43" width="74.4" height="228.57" fill="#ca8a04"/>
 <text x="1032.8" y="154.43" class="value-label" text-anchor="middle">32.6 MiB</text>
@@ -557,26 +563,26 @@ puts result
 <line x1="90" y1="730.0" x2="1070" y2="730.0" class="grid"/>
 <text x="80" y="734.0" class="axis-label" text-anchor="end">0</text>
 <line x1="90" y1="686.0" x2="1070" y2="686.0" class="grid"/>
-<text x="80" y="690.0" class="axis-label" text-anchor="end">8.73</text>
+<text x="80" y="690.0" class="axis-label" text-anchor="end">8.72</text>
 <line x1="90" y1="642.0" x2="1070" y2="642.0" class="grid"/>
-<text x="80" y="646.0" class="axis-label" text-anchor="end">17.5</text>
+<text x="80" y="646.0" class="axis-label" text-anchor="end">17.4</text>
 <line x1="90" y1="598.0" x2="1070" y2="598.0" class="grid"/>
 <text x="80" y="602.0" class="axis-label" text-anchor="end">26.2</text>
 <line x1="90" y1="554.0" x2="1070" y2="554.0" class="grid"/>
 <text x="80" y="558.0" class="axis-label" text-anchor="end">34.9</text>
 <line x1="90" y1="730" x2="1070" y2="730" class="axis"/>
 <line x1="90" y1="554" x2="90" y2="730" class="axis"/>
-<rect x="90.0" y="617.43" width="184.8" height="112.57" fill="#0f766e"/>
-<text x="182.4" y="610.43" class="value-label" text-anchor="middle">22.3 MiB</text>
+<rect x="90.0" y="614.49" width="184.8" height="115.51" fill="#0f766e"/>
+<text x="182.4" y="607.49" class="value-label" text-anchor="middle">22.9 MiB</text>
 <text x="182.4" y="748" class="x-label" text-anchor="end" transform="rotate(-35 182.4 748)">Ruby CSV</text>
-<rect x="288.8" y="614.48" width="184.8" height="115.52" fill="#2563eb"/>
-<text x="381.2" y="607.48" class="value-label" text-anchor="middle">22.9 MiB</text>
+<rect x="288.8" y="613.15" width="184.8" height="116.85" fill="#2563eb"/>
+<text x="381.2" y="606.15" class="value-label" text-anchor="middle">23.2 MiB</text>
 <text x="381.2" y="748" class="x-label" text-anchor="end" transform="rotate(-35 381.2 748)">SmarterCSV</text>
-<rect x="487.6" y="575.1" width="184.8" height="154.9" fill="#dc2626"/>
-<text x="580.0" y="568.1" class="value-label" text-anchor="middle">30.7 MiB</text>
+<rect x="487.6" y="574.57" width="184.8" height="155.43" fill="#dc2626"/>
+<text x="580.0" y="567.57" class="value-label" text-anchor="middle">30.8 MiB</text>
 <text x="580.0" y="748" class="x-label" text-anchor="end" transform="rotate(-35 580.0 748)">Polars</text>
-<rect x="686.4" y="576.13" width="184.8" height="153.87" fill="#7c3aed"/>
-<text x="778.8" y="569.13" class="value-label" text-anchor="middle">30.5 MiB</text>
+<rect x="686.4" y="575.46" width="184.8" height="154.54" fill="#7c3aed"/>
+<text x="778.8" y="568.46" class="value-label" text-anchor="middle">30.6 MiB</text>
 <text x="778.8" y="748" class="x-label" text-anchor="end" transform="rotate(-35 778.8 748)">Polars low memory</text>
 <rect x="885.2" y="572.86" width="184.8" height="157.14" fill="#ca8a04"/>
 <text x="977.6" y="565.86" class="value-label" text-anchor="middle">31.2 MiB</text>
@@ -612,29 +618,29 @@ puts result
 <line x1="90" y1="390.0" x2="534" y2="390.0" class="grid"/>
 <text x="80" y="394.0" class="axis-label" text-anchor="end">0</text>
 <line x1="90" y1="326.0" x2="534" y2="326.0" class="grid"/>
-<text x="80" y="330.0" class="axis-label" text-anchor="end">0.176</text>
+<text x="80" y="330.0" class="axis-label" text-anchor="end">0.169</text>
 <line x1="90" y1="262.0" x2="534" y2="262.0" class="grid"/>
-<text x="80" y="266.0" class="axis-label" text-anchor="end">0.353</text>
+<text x="80" y="266.0" class="axis-label" text-anchor="end">0.339</text>
 <line x1="90" y1="198.0" x2="534" y2="198.0" class="grid"/>
-<text x="80" y="202.0" class="axis-label" text-anchor="end">0.529</text>
+<text x="80" y="202.0" class="axis-label" text-anchor="end">0.508</text>
 <line x1="90" y1="134.0" x2="534" y2="134.0" class="grid"/>
-<text x="80" y="138.0" class="axis-label" text-anchor="end">0.705</text>
+<text x="80" y="138.0" class="axis-label" text-anchor="end">0.677</text>
 <line x1="90" y1="390" x2="534" y2="390" class="axis"/>
 <line x1="90" y1="134" x2="90" y2="390" class="axis"/>
-<rect x="90.0" y="171.44" width="77.6" height="218.56" fill="#0f766e"/>
-<text x="128.8" y="164.44" class="value-label" text-anchor="middle">0.602 s</text>
+<rect x="90.0" y="161.43" width="77.6" height="228.57" fill="#0f766e"/>
+<text x="128.8" y="154.43" class="value-label" text-anchor="middle">0.605 s</text>
 <text x="128.8" y="408" class="x-label" text-anchor="end" transform="rotate(-35 128.8 408)">Ruby CSV</text>
-<rect x="181.6" y="161.43" width="77.6" height="228.57" fill="#2563eb"/>
-<text x="220.4" y="154.43" class="value-label" text-anchor="middle">0.630 s</text>
+<rect x="181.6" y="200.54" width="77.6" height="189.46" fill="#2563eb"/>
+<text x="220.4" y="193.54" class="value-label" text-anchor="middle">0.501 s</text>
 <text x="220.4" y="408" class="x-label" text-anchor="end" transform="rotate(-35 220.4 408)">SmarterCSV</text>
-<rect x="273.2" y="204.47" width="77.6" height="185.53" fill="#dc2626"/>
-<text x="312.0" y="197.47" class="value-label" text-anchor="middle">0.511 s</text>
+<rect x="273.2" y="193.46" width="77.6" height="196.54" fill="#dc2626"/>
+<text x="312.0" y="186.46" class="value-label" text-anchor="middle">0.520 s</text>
 <text x="312.0" y="408" class="x-label" text-anchor="end" transform="rotate(-35 312.0 408)">Polars</text>
-<rect x="364.8" y="202.17" width="77.6" height="187.83" fill="#7c3aed"/>
-<text x="403.6" y="195.17" class="value-label" text-anchor="middle">0.517 s</text>
+<rect x="364.8" y="197.43" width="77.6" height="192.57" fill="#7c3aed"/>
+<text x="403.6" y="190.43" class="value-label" text-anchor="middle">0.509 s</text>
 <text x="403.6" y="408" class="x-label" text-anchor="end" transform="rotate(-35 403.6 408)">Polars low memory</text>
-<rect x="456.4" y="193.82" width="77.6" height="196.18" fill="#ca8a04"/>
-<text x="495.2" y="186.82" class="value-label" text-anchor="middle">0.540 s</text>
+<rect x="456.4" y="198.31" width="77.6" height="191.69" fill="#ca8a04"/>
+<text x="495.2" y="191.31" class="value-label" text-anchor="middle">0.507 s</text>
 <text x="495.2" y="408" class="x-label" text-anchor="end" transform="rotate(-35 495.2 408)">DuckDB</text>
 <text x="584" y="112" class="panel-title">Peak anonymous memory</text>
 <line x1="642" y1="390.0" x2="1070" y2="390.0" class="grid"/>
@@ -649,20 +655,20 @@ puts result
 <text x="632" y="138.0" class="axis-label" text-anchor="end">41.6</text>
 <line x1="642" y1="390" x2="1070" y2="390" class="axis"/>
 <line x1="642" y1="134" x2="642" y2="390" class="axis"/>
-<rect x="642.0" y="234.89" width="74.4" height="155.11" fill="#0f766e"/>
-<text x="679.2" y="227.89" class="value-label" text-anchor="middle">25.2 MiB</text>
+<rect x="642.0" y="234.76" width="74.4" height="155.24" fill="#0f766e"/>
+<text x="679.2" y="227.76" class="value-label" text-anchor="middle">25.2 MiB</text>
 <text x="679.2" y="408" class="x-label" text-anchor="end" transform="rotate(-35 679.2 408)">Ruby CSV</text>
-<rect x="730.4" y="219.91" width="74.4" height="170.09" fill="#2563eb"/>
-<text x="767.6" y="212.91" class="value-label" text-anchor="middle">27.6 MiB</text>
+<rect x="730.4" y="220.73" width="74.4" height="169.27" fill="#2563eb"/>
+<text x="767.6" y="213.73" class="value-label" text-anchor="middle">27.5 MiB</text>
 <text x="767.6" y="408" class="x-label" text-anchor="end" transform="rotate(-35 767.6 408)">SmarterCSV</text>
-<rect x="818.8" y="179.89" width="74.4" height="210.11" fill="#dc2626"/>
-<text x="856.0" y="172.89" class="value-label" text-anchor="middle">34.1 MiB</text>
+<rect x="818.8" y="179.18" width="74.4" height="210.82" fill="#dc2626"/>
+<text x="856.0" y="172.18" class="value-label" text-anchor="middle">34.3 MiB</text>
 <text x="856.0" y="408" class="x-label" text-anchor="end" transform="rotate(-35 856.0 408)">Polars</text>
-<rect x="907.2" y="179.12" width="74.4" height="210.88" fill="#7c3aed"/>
-<text x="944.4" y="172.12" class="value-label" text-anchor="middle">34.3 MiB</text>
+<rect x="907.2" y="176.52" width="74.4" height="213.48" fill="#7c3aed"/>
+<text x="944.4" y="169.52" class="value-label" text-anchor="middle">34.7 MiB</text>
 <text x="944.4" y="408" class="x-label" text-anchor="end" transform="rotate(-35 944.4 408)">Polars low memory</text>
 <rect x="995.6" y="161.43" width="74.4" height="228.57" fill="#ca8a04"/>
-<text x="1032.8" y="154.43" class="value-label" text-anchor="middle">37.1 MiB</text>
+<text x="1032.8" y="154.43" class="value-label" text-anchor="middle">37.2 MiB</text>
 <text x="1032.8" y="408" class="x-label" text-anchor="end" transform="rotate(-35 1032.8 408)">DuckDB</text>
 <text x="32" y="532" class="panel-title">Post-load anonymous memory</text>
 <line x1="90" y1="730.0" x2="1070" y2="730.0" class="grid"/>
@@ -674,23 +680,23 @@ puts result
 <line x1="90" y1="598.0" x2="1070" y2="598.0" class="grid"/>
 <text x="80" y="602.0" class="axis-label" text-anchor="end">27.0</text>
 <line x1="90" y1="554.0" x2="1070" y2="554.0" class="grid"/>
-<text x="80" y="558.0" class="axis-label" text-anchor="end">36.1</text>
+<text x="80" y="558.0" class="axis-label" text-anchor="end">36.0</text>
 <line x1="90" y1="730" x2="1070" y2="730" class="axis"/>
 <line x1="90" y1="554" x2="90" y2="730" class="axis"/>
-<rect x="90.0" y="606.97" width="184.8" height="123.03" fill="#0f766e"/>
-<text x="182.4" y="599.97" class="value-label" text-anchor="middle">25.2 MiB</text>
+<rect x="90.0" y="606.78" width="184.8" height="123.22" fill="#0f766e"/>
+<text x="182.4" y="599.78" class="value-label" text-anchor="middle">25.2 MiB</text>
 <text x="182.4" y="748" class="x-label" text-anchor="end" transform="rotate(-35 182.4 748)">Ruby CSV</text>
-<rect x="288.8" y="595.09" width="184.8" height="134.91" fill="#2563eb"/>
-<text x="381.2" y="588.09" class="value-label" text-anchor="middle">27.6 MiB</text>
+<rect x="288.8" y="595.65" width="184.8" height="134.35" fill="#2563eb"/>
+<text x="381.2" y="588.65" class="value-label" text-anchor="middle">27.5 MiB</text>
 <text x="381.2" y="748" class="x-label" text-anchor="end" transform="rotate(-35 381.2 748)">SmarterCSV</text>
 <rect x="487.6" y="572.86" width="184.8" height="157.14" fill="#dc2626"/>
 <text x="580.0" y="565.86" class="value-label" text-anchor="middle">32.2 MiB</text>
 <text x="580.0" y="748" class="x-label" text-anchor="end" transform="rotate(-35 580.0 748)">Polars</text>
-<rect x="686.4" y="575.95" width="184.8" height="154.05" fill="#7c3aed"/>
-<text x="778.8" y="568.95" class="value-label" text-anchor="middle">31.6 MiB</text>
+<rect x="686.4" y="576.06" width="184.8" height="153.94" fill="#7c3aed"/>
+<text x="778.8" y="569.06" class="value-label" text-anchor="middle">31.5 MiB</text>
 <text x="778.8" y="748" class="x-label" text-anchor="end" transform="rotate(-35 778.8 748)">Polars low memory</text>
-<rect x="885.2" y="573.83" width="184.8" height="156.17" fill="#ca8a04"/>
-<text x="977.6" y="566.83" class="value-label" text-anchor="middle">32.0 MiB</text>
+<rect x="885.2" y="576.42" width="184.8" height="153.58" fill="#ca8a04"/>
+<text x="977.6" y="569.42" class="value-label" text-anchor="middle">31.5 MiB</text>
 <text x="977.6" y="748" class="x-label" text-anchor="end" transform="rotate(-35 977.6 748)">DuckDB</text>
 <text x="32" y="864" class="note">Correctness: 5 correct runs, 0 incorrect runs.</text>
 <text x="32" y="884" class="note">Post-load memory is useful when a short parsing peak is acceptable and the loaded representation will be reused for multiple operations.</text>
@@ -723,85 +729,85 @@ puts result
 <line x1="90" y1="390.0" x2="534" y2="390.0" class="grid"/>
 <text x="80" y="394.0" class="axis-label" text-anchor="end">0</text>
 <line x1="90" y1="326.0" x2="534" y2="326.0" class="grid"/>
-<text x="80" y="330.0" class="axis-label" text-anchor="end">5.47</text>
+<text x="80" y="330.0" class="axis-label" text-anchor="end">5.15</text>
 <line x1="90" y1="262.0" x2="534" y2="262.0" class="grid"/>
-<text x="80" y="266.0" class="axis-label" text-anchor="end">10.9</text>
+<text x="80" y="266.0" class="axis-label" text-anchor="end">10.3</text>
 <line x1="90" y1="198.0" x2="534" y2="198.0" class="grid"/>
-<text x="80" y="202.0" class="axis-label" text-anchor="end">16.4</text>
+<text x="80" y="202.0" class="axis-label" text-anchor="end">15.4</text>
 <line x1="90" y1="134.0" x2="534" y2="134.0" class="grid"/>
-<text x="80" y="138.0" class="axis-label" text-anchor="end">21.9</text>
+<text x="80" y="138.0" class="axis-label" text-anchor="end">20.6</text>
 <line x1="90" y1="390" x2="534" y2="390" class="axis"/>
 <line x1="90" y1="134" x2="90" y2="390" class="axis"/>
 <rect x="90.0" y="161.43" width="77.6" height="228.57" fill="#0f766e"/>
-<text x="128.8" y="154.43" class="value-label" text-anchor="middle">19.5 s</text>
+<text x="128.8" y="154.43" class="value-label" text-anchor="middle">18.4 s</text>
 <text x="128.8" y="408" class="x-label" text-anchor="end" transform="rotate(-35 128.8 408)">Ruby CSV</text>
-<rect x="181.6" y="316.06" width="77.6" height="73.94" fill="#2563eb"/>
-<text x="220.4" y="309.06" class="value-label" text-anchor="middle">6.31 s</text>
+<rect x="181.6" y="314.7" width="77.6" height="75.3" fill="#2563eb"/>
+<text x="220.4" y="307.7" class="value-label" text-anchor="middle">6.06 s</text>
 <text x="220.4" y="408" class="x-label" text-anchor="end" transform="rotate(-35 220.4 408)">SmarterCSV</text>
-<rect x="273.2" y="379.89" width="77.6" height="10.11" fill="#dc2626"/>
-<text x="312.0" y="372.89" class="value-label" text-anchor="middle">0.863 s</text>
+<rect x="273.2" y="379.79" width="77.6" height="10.21" fill="#dc2626"/>
+<text x="312.0" y="372.79" class="value-label" text-anchor="middle">0.822 s</text>
 <text x="312.0" y="408" class="x-label" text-anchor="end" transform="rotate(-35 312.0 408)">Polars</text>
-<rect x="364.8" y="379.49" width="77.6" height="10.51" fill="#7c3aed"/>
-<text x="403.6" y="372.49" class="value-label" text-anchor="middle">0.898 s</text>
+<rect x="364.8" y="379.17" width="77.6" height="10.83" fill="#7c3aed"/>
+<text x="403.6" y="372.17" class="value-label" text-anchor="middle">0.871 s</text>
 <text x="403.6" y="408" class="x-label" text-anchor="end" transform="rotate(-35 403.6 408)">Polars low memory</text>
-<rect x="456.4" y="375.9" width="77.6" height="14.1" fill="#ca8a04"/>
-<text x="495.2" y="368.9" class="value-label" text-anchor="middle">1.20 s</text>
+<rect x="456.4" y="374.4" width="77.6" height="15.6" fill="#ca8a04"/>
+<text x="495.2" y="367.4" class="value-label" text-anchor="middle">1.25 s</text>
 <text x="495.2" y="408" class="x-label" text-anchor="end" transform="rotate(-35 495.2 408)">DuckDB</text>
 <text x="584" y="112" class="panel-title">Peak anonymous memory</text>
 <line x1="642" y1="390.0" x2="1070" y2="390.0" class="grid"/>
 <text x="632" y="394.0" class="axis-label" text-anchor="end">0</text>
 <line x1="642" y1="326.0" x2="1070" y2="326.0" class="grid"/>
-<text x="632" y="330.0" class="axis-label" text-anchor="end">109</text>
+<text x="632" y="330.0" class="axis-label" text-anchor="end">125</text>
 <line x1="642" y1="262.0" x2="1070" y2="262.0" class="grid"/>
-<text x="632" y="266.0" class="axis-label" text-anchor="end">218</text>
+<text x="632" y="266.0" class="axis-label" text-anchor="end">250</text>
 <line x1="642" y1="198.0" x2="1070" y2="198.0" class="grid"/>
-<text x="632" y="202.0" class="axis-label" text-anchor="end">327</text>
+<text x="632" y="202.0" class="axis-label" text-anchor="end">375</text>
 <line x1="642" y1="134.0" x2="1070" y2="134.0" class="grid"/>
-<text x="632" y="138.0" class="axis-label" text-anchor="end">436</text>
+<text x="632" y="138.0" class="axis-label" text-anchor="end">500</text>
 <line x1="642" y1="390" x2="1070" y2="390" class="axis"/>
 <line x1="642" y1="134" x2="642" y2="390" class="axis"/>
 <rect x="642.0" y="161.43" width="74.4" height="228.57" fill="#0f766e"/>
-<text x="679.2" y="154.43" class="value-label" text-anchor="middle">389 MiB</text>
+<text x="679.2" y="154.43" class="value-label" text-anchor="middle">447 MiB</text>
 <text x="679.2" y="408" class="x-label" text-anchor="end" transform="rotate(-35 679.2 408)">Ruby CSV</text>
-<rect x="730.4" y="205.05" width="74.4" height="184.95" fill="#2563eb"/>
-<text x="767.6" y="198.05" class="value-label" text-anchor="middle">315 MiB</text>
+<rect x="730.4" y="228.82" width="74.4" height="161.18" fill="#2563eb"/>
+<text x="767.6" y="221.82" class="value-label" text-anchor="middle">315 MiB</text>
 <text x="767.6" y="408" class="x-label" text-anchor="end" transform="rotate(-35 767.6 408)">SmarterCSV</text>
-<rect x="818.8" y="176.77" width="74.4" height="213.23" fill="#dc2626"/>
-<text x="856.0" y="169.77" class="value-label" text-anchor="middle">363 MiB</text>
+<rect x="818.8" y="211.54" width="74.4" height="178.46" fill="#dc2626"/>
+<text x="856.0" y="204.54" class="value-label" text-anchor="middle">349 MiB</text>
 <text x="856.0" y="408" class="x-label" text-anchor="end" transform="rotate(-35 856.0 408)">Polars</text>
-<rect x="907.2" y="208.19" width="74.4" height="181.81" fill="#7c3aed"/>
-<text x="944.4" y="201.19" class="value-label" text-anchor="middle">310 MiB</text>
+<rect x="907.2" y="221.96" width="74.4" height="168.04" fill="#7c3aed"/>
+<text x="944.4" y="214.96" class="value-label" text-anchor="middle">329 MiB</text>
 <text x="944.4" y="408" class="x-label" text-anchor="end" transform="rotate(-35 944.4 408)">Polars low memory</text>
-<rect x="995.6" y="259.63" width="74.4" height="130.37" fill="#ca8a04"/>
-<text x="1032.8" y="252.63" class="value-label" text-anchor="middle">222 MiB</text>
+<rect x="995.6" y="277.68" width="74.4" height="112.32" fill="#ca8a04"/>
+<text x="1032.8" y="270.68" class="value-label" text-anchor="middle">220 MiB</text>
 <text x="1032.8" y="408" class="x-label" text-anchor="end" transform="rotate(-35 1032.8 408)">DuckDB</text>
 <text x="32" y="532" class="panel-title">Post-load anonymous memory</text>
 <line x1="90" y1="730.0" x2="1070" y2="730.0" class="grid"/>
 <text x="80" y="734.0" class="axis-label" text-anchor="end">0</text>
 <line x1="90" y1="686.0" x2="1070" y2="686.0" class="grid"/>
-<text x="80" y="690.0" class="axis-label" text-anchor="end">109</text>
+<text x="80" y="690.0" class="axis-label" text-anchor="end">125</text>
 <line x1="90" y1="642.0" x2="1070" y2="642.0" class="grid"/>
-<text x="80" y="646.0" class="axis-label" text-anchor="end">218</text>
+<text x="80" y="646.0" class="axis-label" text-anchor="end">250</text>
 <line x1="90" y1="598.0" x2="1070" y2="598.0" class="grid"/>
-<text x="80" y="602.0" class="axis-label" text-anchor="end">327</text>
+<text x="80" y="602.0" class="axis-label" text-anchor="end">375</text>
 <line x1="90" y1="554.0" x2="1070" y2="554.0" class="grid"/>
-<text x="80" y="558.0" class="axis-label" text-anchor="end">435</text>
+<text x="80" y="558.0" class="axis-label" text-anchor="end">500</text>
 <line x1="90" y1="730" x2="1070" y2="730" class="axis"/>
 <line x1="90" y1="554" x2="90" y2="730" class="axis"/>
 <rect x="90.0" y="572.86" width="184.8" height="157.14" fill="#0f766e"/>
-<text x="182.4" y="565.86" class="value-label" text-anchor="middle">389 MiB</text>
+<text x="182.4" y="565.86" class="value-label" text-anchor="middle">446 MiB</text>
 <text x="182.4" y="748" class="x-label" text-anchor="end" transform="rotate(-35 182.4 748)">Ruby CSV</text>
-<rect x="288.8" y="602.94" width="184.8" height="127.06" fill="#2563eb"/>
-<text x="381.2" y="595.94" class="value-label" text-anchor="middle">314 MiB</text>
+<rect x="288.8" y="619.37" width="184.8" height="110.63" fill="#2563eb"/>
+<text x="381.2" y="612.37" class="value-label" text-anchor="middle">314 MiB</text>
 <text x="381.2" y="748" class="x-label" text-anchor="end" transform="rotate(-35 381.2 748)">SmarterCSV</text>
-<rect x="487.6" y="666.32" width="184.8" height="63.68" fill="#dc2626"/>
-<text x="580.0" y="659.32" class="value-label" text-anchor="middle">158 MiB</text>
+<rect x="487.6" y="674.62" width="184.8" height="55.38" fill="#dc2626"/>
+<text x="580.0" y="667.62" class="value-label" text-anchor="middle">157 MiB</text>
 <text x="580.0" y="748" class="x-label" text-anchor="end" transform="rotate(-35 580.0 748)">Polars</text>
-<rect x="686.4" y="691.13" width="184.8" height="38.87" fill="#7c3aed"/>
-<text x="778.8" y="684.13" class="value-label" text-anchor="middle">96.2 MiB</text>
+<rect x="686.4" y="696.11" width="184.8" height="33.89" fill="#7c3aed"/>
+<text x="778.8" y="689.11" class="value-label" text-anchor="middle">96.3 MiB</text>
 <text x="778.8" y="748" class="x-label" text-anchor="end" transform="rotate(-35 778.8 748)">Polars low memory</text>
-<rect x="885.2" y="692.48" width="184.8" height="37.52" fill="#ca8a04"/>
-<text x="977.6" y="685.48" class="value-label" text-anchor="middle">92.8 MiB</text>
+<rect x="885.2" y="697.32" width="184.8" height="32.68" fill="#ca8a04"/>
+<text x="977.6" y="690.32" class="value-label" text-anchor="middle">92.8 MiB</text>
 <text x="977.6" y="748" class="x-label" text-anchor="end" transform="rotate(-35 977.6 748)">DuckDB</text>
 <text x="32" y="864" class="note">Correctness: 5 correct runs, 0 incorrect runs.</text>
 <text x="32" y="884" class="note">Post-load memory is useful when a short parsing peak is acceptable and the loaded representation will be reused for multiple operations.</text>
@@ -834,26 +840,26 @@ puts result
 <line x1="90" y1="270.0" x2="1070" y2="270.0" class="grid"/>
 <text x="80" y="274.0" class="axis-label" text-anchor="end">0</text>
 <line x1="90" y1="236.0" x2="1070" y2="236.0" class="grid"/>
-<text x="80" y="240.0" class="axis-label" text-anchor="end">8.73</text>
+<text x="80" y="240.0" class="axis-label" text-anchor="end">8.72</text>
 <line x1="90" y1="202.0" x2="1070" y2="202.0" class="grid"/>
-<text x="80" y="206.0" class="axis-label" text-anchor="end">17.5</text>
+<text x="80" y="206.0" class="axis-label" text-anchor="end">17.4</text>
 <line x1="90" y1="168.0" x2="1070" y2="168.0" class="grid"/>
 <text x="80" y="172.0" class="axis-label" text-anchor="end">26.2</text>
 <line x1="90" y1="134.0" x2="1070" y2="134.0" class="grid"/>
 <text x="80" y="138.0" class="axis-label" text-anchor="end">34.9</text>
 <line x1="90" y1="270" x2="1070" y2="270" class="axis"/>
 <line x1="90" y1="134" x2="90" y2="270" class="axis"/>
-<rect x="90.0" y="183.02" width="184.8" height="86.98" fill="#0f766e"/>
-<text x="182.4" y="176.02" class="value-label" text-anchor="middle">22.3 MiB</text>
+<rect x="90.0" y="180.74" width="184.8" height="89.26" fill="#0f766e"/>
+<text x="182.4" y="173.74" class="value-label" text-anchor="middle">22.9 MiB</text>
 <text x="182.4" y="288" class="x-label" text-anchor="end" transform="rotate(-35 182.4 288)">Ruby CSV</text>
-<rect x="288.8" y="180.73" width="184.8" height="89.27" fill="#2563eb"/>
-<text x="381.2" y="173.73" class="value-label" text-anchor="middle">22.9 MiB</text>
+<rect x="288.8" y="179.71" width="184.8" height="90.29" fill="#2563eb"/>
+<text x="381.2" y="172.71" class="value-label" text-anchor="middle">23.2 MiB</text>
 <text x="381.2" y="288" class="x-label" text-anchor="end" transform="rotate(-35 381.2 288)">SmarterCSV</text>
-<rect x="487.6" y="150.31" width="184.8" height="119.69" fill="#dc2626"/>
-<text x="580.0" y="143.31" class="value-label" text-anchor="middle">30.7 MiB</text>
+<rect x="487.6" y="149.9" width="184.8" height="120.1" fill="#dc2626"/>
+<text x="580.0" y="142.9" class="value-label" text-anchor="middle">30.8 MiB</text>
 <text x="580.0" y="288" class="x-label" text-anchor="end" transform="rotate(-35 580.0 288)">Polars</text>
-<rect x="686.4" y="151.1" width="184.8" height="118.9" fill="#7c3aed"/>
-<text x="778.8" y="144.1" class="value-label" text-anchor="middle">30.5 MiB</text>
+<rect x="686.4" y="150.58" width="184.8" height="119.42" fill="#7c3aed"/>
+<text x="778.8" y="143.58" class="value-label" text-anchor="middle">30.6 MiB</text>
 <text x="778.8" y="288" class="x-label" text-anchor="end" transform="rotate(-35 778.8 288)">Polars low memory</text>
 <rect x="885.2" y="148.57" width="184.8" height="121.43" fill="#ca8a04"/>
 <text x="977.6" y="141.57" class="value-label" text-anchor="middle">31.2 MiB</text>
@@ -868,51 +874,51 @@ puts result
 <line x1="90" y1="476.0" x2="1070" y2="476.0" class="grid"/>
 <text x="80" y="480.0" class="axis-label" text-anchor="end">27.0</text>
 <line x1="90" y1="442.0" x2="1070" y2="442.0" class="grid"/>
-<text x="80" y="446.0" class="axis-label" text-anchor="end">36.1</text>
+<text x="80" y="446.0" class="axis-label" text-anchor="end">36.0</text>
 <line x1="90" y1="578" x2="1070" y2="578" class="axis"/>
 <line x1="90" y1="442" x2="90" y2="578" class="axis"/>
-<rect x="90.0" y="482.93" width="184.8" height="95.07" fill="#0f766e"/>
-<text x="182.4" y="475.93" class="value-label" text-anchor="middle">25.2 MiB</text>
+<rect x="90.0" y="482.79" width="184.8" height="95.21" fill="#0f766e"/>
+<text x="182.4" y="475.79" class="value-label" text-anchor="middle">25.2 MiB</text>
 <text x="182.4" y="596" class="x-label" text-anchor="end" transform="rotate(-35 182.4 596)">Ruby CSV</text>
-<rect x="288.8" y="473.75" width="184.8" height="104.25" fill="#2563eb"/>
-<text x="381.2" y="466.75" class="value-label" text-anchor="middle">27.6 MiB</text>
+<rect x="288.8" y="474.18" width="184.8" height="103.82" fill="#2563eb"/>
+<text x="381.2" y="467.18" class="value-label" text-anchor="middle">27.5 MiB</text>
 <text x="381.2" y="596" class="x-label" text-anchor="end" transform="rotate(-35 381.2 596)">SmarterCSV</text>
 <rect x="487.6" y="456.57" width="184.8" height="121.43" fill="#dc2626"/>
 <text x="580.0" y="449.57" class="value-label" text-anchor="middle">32.2 MiB</text>
 <text x="580.0" y="596" class="x-label" text-anchor="end" transform="rotate(-35 580.0 596)">Polars</text>
-<rect x="686.4" y="458.96" width="184.8" height="119.04" fill="#7c3aed"/>
-<text x="778.8" y="451.96" class="value-label" text-anchor="middle">31.6 MiB</text>
+<rect x="686.4" y="459.05" width="184.8" height="118.95" fill="#7c3aed"/>
+<text x="778.8" y="452.05" class="value-label" text-anchor="middle">31.5 MiB</text>
 <text x="778.8" y="596" class="x-label" text-anchor="end" transform="rotate(-35 778.8 596)">Polars low memory</text>
-<rect x="885.2" y="457.32" width="184.8" height="120.68" fill="#ca8a04"/>
-<text x="977.6" y="450.32" class="value-label" text-anchor="middle">32.0 MiB</text>
+<rect x="885.2" y="459.33" width="184.8" height="118.67" fill="#ca8a04"/>
+<text x="977.6" y="452.33" class="value-label" text-anchor="middle">31.5 MiB</text>
 <text x="977.6" y="596" class="x-label" text-anchor="end" transform="rotate(-35 977.6 596)">DuckDB</text>
 <text x="32" y="728" class="panel-title">1M rows</text>
 <line x1="90" y1="886.0" x2="1070" y2="886.0" class="grid"/>
 <text x="80" y="890.0" class="axis-label" text-anchor="end">0</text>
 <line x1="90" y1="852.0" x2="1070" y2="852.0" class="grid"/>
-<text x="80" y="856.0" class="axis-label" text-anchor="end">109</text>
+<text x="80" y="856.0" class="axis-label" text-anchor="end">125</text>
 <line x1="90" y1="818.0" x2="1070" y2="818.0" class="grid"/>
-<text x="80" y="822.0" class="axis-label" text-anchor="end">218</text>
+<text x="80" y="822.0" class="axis-label" text-anchor="end">250</text>
 <line x1="90" y1="784.0" x2="1070" y2="784.0" class="grid"/>
-<text x="80" y="788.0" class="axis-label" text-anchor="end">327</text>
+<text x="80" y="788.0" class="axis-label" text-anchor="end">375</text>
 <line x1="90" y1="750.0" x2="1070" y2="750.0" class="grid"/>
-<text x="80" y="754.0" class="axis-label" text-anchor="end">435</text>
+<text x="80" y="754.0" class="axis-label" text-anchor="end">500</text>
 <line x1="90" y1="886" x2="1070" y2="886" class="axis"/>
 <line x1="90" y1="750" x2="90" y2="886" class="axis"/>
 <rect x="90.0" y="764.57" width="184.8" height="121.43" fill="#0f766e"/>
-<text x="182.4" y="757.57" class="value-label" text-anchor="middle">389 MiB</text>
+<text x="182.4" y="757.57" class="value-label" text-anchor="middle">446 MiB</text>
 <text x="182.4" y="904" class="x-label" text-anchor="end" transform="rotate(-35 182.4 904)">Ruby CSV</text>
-<rect x="288.8" y="787.82" width="184.8" height="98.18" fill="#2563eb"/>
-<text x="381.2" y="780.82" class="value-label" text-anchor="middle">314 MiB</text>
+<rect x="288.8" y="800.52" width="184.8" height="85.48" fill="#2563eb"/>
+<text x="381.2" y="793.52" class="value-label" text-anchor="middle">314 MiB</text>
 <text x="381.2" y="904" class="x-label" text-anchor="end" transform="rotate(-35 381.2 904)">SmarterCSV</text>
-<rect x="487.6" y="836.8" width="184.8" height="49.2" fill="#dc2626"/>
-<text x="580.0" y="829.8" class="value-label" text-anchor="middle">158 MiB</text>
+<rect x="487.6" y="843.21" width="184.8" height="42.79" fill="#dc2626"/>
+<text x="580.0" y="836.21" class="value-label" text-anchor="middle">157 MiB</text>
 <text x="580.0" y="904" class="x-label" text-anchor="end" transform="rotate(-35 580.0 904)">Polars</text>
-<rect x="686.4" y="855.96" width="184.8" height="30.04" fill="#7c3aed"/>
-<text x="778.8" y="848.96" class="value-label" text-anchor="middle">96.2 MiB</text>
+<rect x="686.4" y="859.81" width="184.8" height="26.19" fill="#7c3aed"/>
+<text x="778.8" y="852.81" class="value-label" text-anchor="middle">96.3 MiB</text>
 <text x="778.8" y="904" class="x-label" text-anchor="end" transform="rotate(-35 778.8 904)">Polars low memory</text>
-<rect x="885.2" y="857.0" width="184.8" height="29.0" fill="#ca8a04"/>
-<text x="977.6" y="850.0" class="value-label" text-anchor="middle">92.8 MiB</text>
+<rect x="885.2" y="860.75" width="184.8" height="25.25" fill="#ca8a04"/>
+<text x="977.6" y="853.75" class="value-label" text-anchor="middle">92.8 MiB</text>
 <text x="977.6" y="904" class="x-label" text-anchor="end" transform="rotate(-35 977.6 904)">DuckDB</text>
 <text x="32" y="988" class="note">This chart ignores transient parsing peaks and focuses on memory left after the file is loaded.</text>
 
@@ -941,39 +947,39 @@ puts result
   <text x="32" y="38" class="title">All Tasks Summary</text>
   <text x="32" y="60" class="subtitle">Runtime, peak memory, and post-load memory for task=all across generated CSV sizes; lower is better.</text>
   <text x="32" y="112" class="panel-title">Runtime by file size</text>
-<line x1="90" y1="187.32" x2="1098" y2="187.32" class="grid"/>
-<text x="80" y="191.32" class="axis-label" text-anchor="end">4.88</text>
-<line x1="90" y1="160.66" x2="1098" y2="160.66" class="grid"/>
-<text x="80" y="164.66" class="axis-label" text-anchor="end">9.76</text>
-<line x1="90" y1="145.07" x2="1098" y2="145.07" class="grid"/>
-<text x="80" y="149.07" class="axis-label" text-anchor="end">14.6</text>
+<line x1="90" y1="188.2" x2="1098" y2="188.2" class="grid"/>
+<text x="80" y="192.2" class="axis-label" text-anchor="end">4.60</text>
+<line x1="90" y1="161.1" x2="1098" y2="161.1" class="grid"/>
+<text x="80" y="165.1" class="axis-label" text-anchor="end">9.19</text>
+<line x1="90" y1="145.25" x2="1098" y2="145.25" class="grid"/>
+<text x="80" y="149.25" class="axis-label" text-anchor="end">13.8</text>
 <line x1="90" y1="134.0" x2="1098" y2="134.0" class="grid"/>
-<text x="80" y="138.0" class="axis-label" text-anchor="end">19.5</text>
+<text x="80" y="138.0" class="axis-label" text-anchor="end">18.4</text>
 <line x1="90" y1="278" x2="1098" y2="278" class="axis"/>
 <line x1="90" y1="134" x2="90" y2="278" class="axis"/>
 <text x="90.0" y="302" class="x-label" text-anchor="middle">1K rows</text>
 <text x="594.0" y="302" class="x-label" text-anchor="middle">10K rows</text>
 <text x="1098.0" y="302" class="x-label" text-anchor="middle">1M rows</text>
-<polyline points="90.0,275.66 594.0,267.81 1098.0,134.0" fill="none" stroke="#0f766e" stroke-width="3"/>
-<circle cx="90.0" cy="275.66" r="4" fill="#0f766e"/>
-<circle cx="594.0" cy="267.81" r="4" fill="#0f766e"/>
+<polyline points="90.0,274.52 594.0,267.52 1098.0,134.0" fill="none" stroke="#0f766e" stroke-width="3"/>
+<circle cx="90.0" cy="274.52" r="4" fill="#0f766e"/>
+<circle cx="594.0" cy="267.52" r="4" fill="#0f766e"/>
 <circle cx="1098.0" cy="134.0" r="4" fill="#0f766e"/>
-<polyline points="90.0,278.0 594.0,266.09 1098.0,177.41" fill="none" stroke="#2563eb" stroke-width="3"/>
+<polyline points="90.0,278.0 594.0,274.85 1098.0,177.41" fill="none" stroke="#2563eb" stroke-width="3"/>
 <circle cx="90.0" cy="278.0" r="4" fill="#2563eb"/>
-<circle cx="594.0" cy="266.09" r="4" fill="#2563eb"/>
+<circle cx="594.0" cy="274.85" r="4" fill="#2563eb"/>
 <circle cx="1098.0" cy="177.41" r="4" fill="#2563eb"/>
-<polyline points="90.0,265.44 594.0,274.12 1098.0,253.96" fill="none" stroke="#dc2626" stroke-width="3"/>
-<circle cx="90.0" cy="265.44" r="4" fill="#dc2626"/>
-<circle cx="594.0" cy="274.12" r="4" fill="#dc2626"/>
-<circle cx="1098.0" cy="253.96" r="4" fill="#dc2626"/>
-<polyline points="90.0,274.72 594.0,273.64 1098.0,252.44" fill="none" stroke="#7c3aed" stroke-width="3"/>
-<circle cx="90.0" cy="274.72" r="4" fill="#7c3aed"/>
-<circle cx="594.0" cy="273.64" r="4" fill="#7c3aed"/>
-<circle cx="1098.0" cy="252.44" r="4" fill="#7c3aed"/>
-<polyline points="90.0,270.95 594.0,271.97 1098.0,241.14" fill="none" stroke="#ca8a04" stroke-width="3"/>
-<circle cx="90.0" cy="270.95" r="4" fill="#ca8a04"/>
-<circle cx="594.0" cy="271.97" r="4" fill="#ca8a04"/>
-<circle cx="1098.0" cy="241.14" r="4" fill="#ca8a04"/>
+<polyline points="90.0,267.42 594.0,273.42 1098.0,255.52" fill="none" stroke="#dc2626" stroke-width="3"/>
+<circle cx="90.0" cy="267.42" r="4" fill="#dc2626"/>
+<circle cx="594.0" cy="273.42" r="4" fill="#dc2626"/>
+<circle cx="1098.0" cy="255.52" r="4" fill="#dc2626"/>
+<polyline points="90.0,272.89 594.0,274.22 1098.0,253.24" fill="none" stroke="#7c3aed" stroke-width="3"/>
+<circle cx="90.0" cy="272.89" r="4" fill="#7c3aed"/>
+<circle cx="594.0" cy="274.22" r="4" fill="#7c3aed"/>
+<circle cx="1098.0" cy="253.24" r="4" fill="#7c3aed"/>
+<polyline points="90.0,266.61 594.0,274.4 1098.0,238.96" fill="none" stroke="#ca8a04" stroke-width="3"/>
+<circle cx="90.0" cy="266.61" r="4" fill="#ca8a04"/>
+<circle cx="594.0" cy="274.4" r="4" fill="#ca8a04"/>
+<circle cx="1098.0" cy="238.96" r="4" fill="#ca8a04"/>
 <rect x="90" y="314" width="12" height="12" fill="#0f766e"/>
 <text x="108" y="324" class="legend-text">Ruby CSV</text>
 <rect x="252" y="314" width="12" height="12" fill="#2563eb"/>
@@ -986,39 +992,39 @@ puts result
 <text x="756" y="324" class="legend-text">DuckDB</text>
 <text x="1098" y="126" class="note" text-anchor="end">seconds, log scale</text>
 <text x="32" y="402" class="panel-title">Peak anonymous memory by file size</text>
-<line x1="90" y1="493.82" x2="1098" y2="493.82" class="grid"/>
-<text x="80" y="497.82" class="axis-label" text-anchor="end">97.4</text>
-<line x1="90" y1="458.91" x2="1098" y2="458.91" class="grid"/>
-<text x="80" y="462.91" class="axis-label" text-anchor="end">195</text>
-<line x1="90" y1="438.49" x2="1098" y2="438.49" class="grid"/>
-<text x="80" y="442.49" class="axis-label" text-anchor="end">292</text>
+<line x1="90" y1="490.75" x2="1098" y2="490.75" class="grid"/>
+<text x="80" y="494.75" class="axis-label" text-anchor="end">112</text>
+<line x1="90" y1="457.38" x2="1098" y2="457.38" class="grid"/>
+<text x="80" y="461.38" class="axis-label" text-anchor="end">223</text>
+<line x1="90" y1="437.85" x2="1098" y2="437.85" class="grid"/>
+<text x="80" y="441.85" class="axis-label" text-anchor="end">335</text>
 <line x1="90" y1="424.0" x2="1098" y2="424.0" class="grid"/>
-<text x="80" y="428.0" class="axis-label" text-anchor="end">389</text>
+<text x="80" y="428.0" class="axis-label" text-anchor="end">447</text>
 <line x1="90" y1="568" x2="1098" y2="568" class="axis"/>
 <line x1="90" y1="424" x2="90" y2="568" class="axis"/>
 <text x="90.0" y="592" class="x-label" text-anchor="middle">1K rows</text>
 <text x="594.0" y="592" class="x-label" text-anchor="middle">10K rows</text>
 <text x="1098.0" y="592" class="x-label" text-anchor="middle">1M rows</text>
-<polyline points="90.0,568.0 594.0,561.88 1098.0,424.0" fill="none" stroke="#0f766e" stroke-width="3"/>
-<circle cx="90.0" cy="568.0" r="4" fill="#0f766e"/>
-<circle cx="594.0" cy="561.88" r="4" fill="#0f766e"/>
+<polyline points="90.0,567.06 594.0,562.38 1098.0,424.0" fill="none" stroke="#0f766e" stroke-width="3"/>
+<circle cx="90.0" cy="567.06" r="4" fill="#0f766e"/>
+<circle cx="594.0" cy="562.38" r="4" fill="#0f766e"/>
 <circle cx="1098.0" cy="424.0" r="4" fill="#0f766e"/>
-<polyline points="90.0,566.7 594.0,557.24 1098.0,434.67" fill="none" stroke="#2563eb" stroke-width="3"/>
-<circle cx="90.0" cy="566.7" r="4" fill="#2563eb"/>
-<circle cx="594.0" cy="557.24" r="4" fill="#2563eb"/>
-<circle cx="1098.0" cy="434.67" r="4" fill="#2563eb"/>
-<polyline points="90.0,550.06 594.0,546.6 1098.0,427.5" fill="none" stroke="#dc2626" stroke-width="3"/>
-<circle cx="90.0" cy="550.06" r="4" fill="#dc2626"/>
-<circle cx="594.0" cy="546.6" r="4" fill="#dc2626"/>
-<circle cx="1098.0" cy="427.5" r="4" fill="#dc2626"/>
-<polyline points="90.0,549.56 594.0,546.41 1098.0,435.53" fill="none" stroke="#7c3aed" stroke-width="3"/>
-<circle cx="90.0" cy="549.56" r="4" fill="#7c3aed"/>
-<circle cx="594.0" cy="546.41" r="4" fill="#7c3aed"/>
-<circle cx="1098.0" cy="435.53" r="4" fill="#7c3aed"/>
-<polyline points="90.0,548.99 594.0,542.36 1098.0,452.28" fill="none" stroke="#ca8a04" stroke-width="3"/>
-<circle cx="90.0" cy="548.99" r="4" fill="#ca8a04"/>
-<circle cx="594.0" cy="542.36" r="4" fill="#ca8a04"/>
-<circle cx="1098.0" cy="452.28" r="4" fill="#ca8a04"/>
+<polyline points="90.0,568.0 594.0,558.21 1098.0,440.82" fill="none" stroke="#2563eb" stroke-width="3"/>
+<circle cx="90.0" cy="568.0" r="4" fill="#2563eb"/>
+<circle cx="594.0" cy="558.21" r="4" fill="#2563eb"/>
+<circle cx="1098.0" cy="440.82" r="4" fill="#2563eb"/>
+<polyline points="90.0,551.45 594.0,547.64 1098.0,435.92" fill="none" stroke="#dc2626" stroke-width="3"/>
+<circle cx="90.0" cy="551.45" r="4" fill="#dc2626"/>
+<circle cx="594.0" cy="547.64" r="4" fill="#dc2626"/>
+<circle cx="1098.0" cy="435.92" r="4" fill="#dc2626"/>
+<polyline points="90.0,551.58 594.0,547.04 1098.0,438.81" fill="none" stroke="#7c3aed" stroke-width="3"/>
+<circle cx="90.0" cy="551.58" r="4" fill="#7c3aed"/>
+<circle cx="594.0" cy="547.04" r="4" fill="#7c3aed"/>
+<circle cx="1098.0" cy="438.81" r="4" fill="#7c3aed"/>
+<polyline points="90.0,550.06 594.0,543.75 1098.0,458.21" fill="none" stroke="#ca8a04" stroke-width="3"/>
+<circle cx="90.0" cy="550.06" r="4" fill="#ca8a04"/>
+<circle cx="594.0" cy="543.75" r="4" fill="#ca8a04"/>
+<circle cx="1098.0" cy="458.21" r="4" fill="#ca8a04"/>
 <rect x="90" y="604" width="12" height="12" fill="#0f766e"/>
 <text x="108" y="614" class="legend-text">Ruby CSV</text>
 <rect x="252" y="604" width="12" height="12" fill="#2563eb"/>
@@ -1031,39 +1037,39 @@ puts result
 <text x="756" y="614" class="legend-text">DuckDB</text>
 <text x="1098" y="416" class="note" text-anchor="end">MiB, log scale</text>
 <text x="32" y="692" class="panel-title">Post-load anonymous memory by file size</text>
-<line x1="90" y1="783.86" x2="1098" y2="783.86" class="grid"/>
-<text x="80" y="787.86" class="axis-label" text-anchor="end">97.2</text>
-<line x1="90" y1="748.93" x2="1098" y2="748.93" class="grid"/>
-<text x="80" y="752.93" class="axis-label" text-anchor="end">194</text>
-<line x1="90" y1="728.5" x2="1098" y2="728.5" class="grid"/>
-<text x="80" y="732.5" class="axis-label" text-anchor="end">292</text>
+<line x1="90" y1="781.21" x2="1098" y2="781.21" class="grid"/>
+<text x="80" y="785.21" class="axis-label" text-anchor="end">112</text>
+<line x1="90" y1="747.6" x2="1098" y2="747.6" class="grid"/>
+<text x="80" y="751.6" class="axis-label" text-anchor="end">223</text>
+<line x1="90" y1="727.95" x2="1098" y2="727.95" class="grid"/>
+<text x="80" y="731.95" class="axis-label" text-anchor="end">335</text>
 <line x1="90" y1="714.0" x2="1098" y2="714.0" class="grid"/>
-<text x="80" y="718.0" class="axis-label" text-anchor="end">389</text>
+<text x="80" y="718.0" class="axis-label" text-anchor="end">446</text>
 <line x1="90" y1="858" x2="1098" y2="858" class="axis"/>
 <line x1="90" y1="714" x2="90" y2="858" class="axis"/>
 <text x="90.0" y="882" class="x-label" text-anchor="middle">1K rows</text>
 <text x="594.0" y="882" class="x-label" text-anchor="middle">10K rows</text>
 <text x="1098.0" y="882" class="x-label" text-anchor="middle">1M rows</text>
-<polyline points="90.0,858.0 594.0,851.88 1098.0,714.0" fill="none" stroke="#0f766e" stroke-width="3"/>
+<polyline points="90.0,858.0 594.0,853.28 1098.0,714.0" fill="none" stroke="#0f766e" stroke-width="3"/>
 <circle cx="90.0" cy="858.0" r="4" fill="#0f766e"/>
-<circle cx="594.0" cy="851.88" r="4" fill="#0f766e"/>
+<circle cx="594.0" cy="853.28" r="4" fill="#0f766e"/>
 <circle cx="1098.0" cy="714.0" r="4" fill="#0f766e"/>
-<polyline points="90.0,856.69 594.0,847.23 1098.0,724.71" fill="none" stroke="#2563eb" stroke-width="3"/>
-<circle cx="90.0" cy="856.69" r="4" fill="#2563eb"/>
-<circle cx="594.0" cy="847.23" r="4" fill="#2563eb"/>
-<circle cx="1098.0" cy="724.71" r="4" fill="#2563eb"/>
-<polyline points="90.0,841.91 594.0,839.55 1098.0,759.52" fill="none" stroke="#dc2626" stroke-width="3"/>
-<circle cx="90.0" cy="841.91" r="4" fill="#dc2626"/>
-<circle cx="594.0" cy="839.55" r="4" fill="#dc2626"/>
-<circle cx="1098.0" cy="759.52" r="4" fill="#dc2626"/>
-<polyline points="90.0,842.25 594.0,840.55 1098.0,784.4" fill="none" stroke="#7c3aed" stroke-width="3"/>
-<circle cx="90.0" cy="842.25" r="4" fill="#7c3aed"/>
-<circle cx="594.0" cy="840.55" r="4" fill="#7c3aed"/>
-<circle cx="1098.0" cy="784.4" r="4" fill="#7c3aed"/>
-<polyline points="90.0,841.19 594.0,839.86 1098.0,786.17" fill="none" stroke="#ca8a04" stroke-width="3"/>
-<circle cx="90.0" cy="841.19" r="4" fill="#ca8a04"/>
-<circle cx="594.0" cy="839.86" r="4" fill="#ca8a04"/>
-<circle cx="1098.0" cy="786.17" r="4" fill="#ca8a04"/>
+<polyline points="90.0,857.44 594.0,849.09 1098.0,731.02" fill="none" stroke="#2563eb" stroke-width="3"/>
+<circle cx="90.0" cy="857.44" r="4" fill="#2563eb"/>
+<circle cx="594.0" cy="849.09" r="4" fill="#2563eb"/>
+<circle cx="1098.0" cy="731.02" r="4" fill="#2563eb"/>
+<polyline points="90.0,843.61 594.0,841.49 1098.0,764.56" fill="none" stroke="#dc2626" stroke-width="3"/>
+<circle cx="90.0" cy="843.61" r="4" fill="#dc2626"/>
+<circle cx="594.0" cy="841.49" r="4" fill="#dc2626"/>
+<circle cx="1098.0" cy="764.56" r="4" fill="#dc2626"/>
+<polyline points="90.0,843.89 594.0,842.49 1098.0,788.37" fill="none" stroke="#7c3aed" stroke-width="3"/>
+<circle cx="90.0" cy="843.89" r="4" fill="#7c3aed"/>
+<circle cx="594.0" cy="842.49" r="4" fill="#7c3aed"/>
+<circle cx="1098.0" cy="788.37" r="4" fill="#7c3aed"/>
+<polyline points="90.0,843.08 594.0,842.6 1098.0,790.14" fill="none" stroke="#ca8a04" stroke-width="3"/>
+<circle cx="90.0" cy="843.08" r="4" fill="#ca8a04"/>
+<circle cx="594.0" cy="842.6" r="4" fill="#ca8a04"/>
+<circle cx="1098.0" cy="790.14" r="4" fill="#ca8a04"/>
 <rect x="90" y="894" width="12" height="12" fill="#0f766e"/>
 <text x="108" y="904" class="legend-text">Ruby CSV</text>
 <rect x="252" y="894" width="12" height="12" fill="#2563eb"/>
@@ -1104,29 +1110,29 @@ puts result
 <line x1="112" y1="378.0" x2="838" y2="378.0" class="grid"/>
 <text x="102" y="382.0" class="axis-label" text-anchor="end">0x</text>
 <line x1="112" y1="311.5" x2="838" y2="311.5" class="grid"/>
-<text x="102" y="315.5" class="axis-label" text-anchor="end">6.50x</text>
+<text x="102" y="315.5" class="axis-label" text-anchor="end">6.43x</text>
 <line x1="112" y1="245.0" x2="838" y2="245.0" class="grid"/>
-<text x="102" y="249.0" class="axis-label" text-anchor="end">13.0x</text>
+<text x="102" y="249.0" class="axis-label" text-anchor="end">12.9x</text>
 <line x1="112" y1="178.5" x2="838" y2="178.5" class="grid"/>
-<text x="102" y="182.5" class="axis-label" text-anchor="end">19.5x</text>
+<text x="102" y="182.5" class="axis-label" text-anchor="end">19.3x</text>
 <line x1="112" y1="112.0" x2="838" y2="112.0" class="grid"/>
-<text x="102" y="116.0" class="axis-label" text-anchor="end">26.0x</text>
+<text x="102" y="116.0" class="axis-label" text-anchor="end">25.7x</text>
 <line x1="112" y1="378" x2="838" y2="378" class="axis"/>
 <line x1="112" y1="112" x2="112" y2="378" class="axis"/>
-<rect x="112.0" y="367.77" width="132.4" height="10.23" fill="#0f766e"/>
-<text x="178.2" y="359.77" class="value-label" text-anchor="middle">1.0x</text>
+<rect x="112.0" y="367.66" width="132.4" height="10.34" fill="#0f766e"/>
+<text x="178.2" y="359.66" class="value-label" text-anchor="middle">1.0x</text>
 <text x="178.2" y="396" class="x-label" text-anchor="end" transform="rotate(-35 178.2 396)">Ruby CSV</text>
-<rect x="260.4" y="346.39" width="132.4" height="31.61" fill="#2563eb"/>
-<text x="326.6" y="338.39" class="value-label" text-anchor="middle">3.1x</text>
+<rect x="260.4" y="346.63" width="132.4" height="31.37" fill="#2563eb"/>
+<text x="326.6" y="338.63" class="value-label" text-anchor="middle">3.0x</text>
 <text x="326.6" y="396" class="x-label" text-anchor="end" transform="rotate(-35 326.6 396)">SmarterCSV</text>
 <rect x="408.8" y="146.7" width="132.4" height="231.3" fill="#dc2626"/>
-<text x="475.0" y="138.7" class="value-label" text-anchor="middle">22.6x</text>
+<text x="475.0" y="138.7" class="value-label" text-anchor="middle">22.4x</text>
 <text x="475.0" y="396" class="x-label" text-anchor="end" transform="rotate(-35 475.0 396)">Polars</text>
-<rect x="557.2" y="155.63" width="132.4" height="222.37" fill="#7c3aed"/>
-<text x="623.4" y="147.63" class="value-label" text-anchor="middle">21.7x</text>
+<rect x="557.2" y="159.83" width="132.4" height="218.17" fill="#7c3aed"/>
+<text x="623.4" y="151.83" class="value-label" text-anchor="middle">21.1x</text>
 <text x="623.4" y="396" class="x-label" text-anchor="end" transform="rotate(-35 623.4 396)">Polars low memory</text>
-<rect x="705.6" y="212.23" width="132.4" height="165.77" fill="#ca8a04"/>
-<text x="771.8" y="204.23" class="value-label" text-anchor="middle">16.2x</text>
+<rect x="705.6" y="226.55" width="132.4" height="151.45" fill="#ca8a04"/>
+<text x="771.8" y="218.55" class="value-label" text-anchor="middle">14.7x</text>
 <text x="771.8" y="396" class="x-label" text-anchor="end" transform="rotate(-35 771.8 396)">DuckDB</text>
 <text x="32" y="440" class="note">This is the notable outlier: vectorized engines are much faster on the largest available file, while Ruby parsers are competitive on tiny files.</text>
 
@@ -1141,7 +1147,7 @@ puts result
 <div class="grid-2">
   <div>
     <h3>Fastest 1M all-tasks run</h3>
-    <p class="takeaway">Polars: 0.86 seconds.</p>
+    <p class="takeaway">Polars: 0.82 seconds.</p>
   </div>
   <div>
     <h3>Lowest 1M post-load memory</h3>

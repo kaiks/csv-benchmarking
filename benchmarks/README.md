@@ -86,6 +86,12 @@ Each task is measured independently. For example, `count_invalid_dob_rows` and
 `invalid_dob_indexes` are separate Docker process executions, and `all` is also
 separate execution rather than a summary assembled from the individual tasks.
 
+The SmarterCSV implementation is configured for this generated fixed-schema CSV:
+it uses explicit separators, disables numeric conversion when a task does not
+need it, and uses `headers: { only: ... }` for balance-only and DOB-only tasks.
+The DOB-only path keeps empty values so empty DOB rows are still counted as
+invalid rows.
+
 ## Implementation Contract
 
 An implementation is a Ruby script that accepts:

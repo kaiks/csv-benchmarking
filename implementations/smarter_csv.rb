@@ -7,10 +7,39 @@ require_relative "support"
 IMPLEMENTATION = "smarter_csv"
 CHUNK_SIZE = 10_000
 
-def process_rows(file_path)
+COMMON_OPTIONS = {
+  chunk_size: CHUNK_SIZE,
+  col_sep: ",",
+  row_sep: "\n",
+  quote_escaping: :double_quotes,
+  strip_whitespace: false,
+  verbose: :quiet
+}.freeze
+
+NO_NUMERIC_OPTIONS = COMMON_OPTIONS.merge(
+  convert_values_to_numeric: false
+).freeze
+
+BALANCE_ONLY_OPTIONS = COMMON_OPTIONS.merge(
+  headers: { only: [:account_balance] },
+  convert_values_to_numeric: { only: [:account_balance] }
+).freeze
+
+DOB_ONLY_OPTIONS = COMMON_OPTIONS.merge(
+  headers: { only: [:date_of_birth] },
+  convert_values_to_numeric: false,
+  remove_empty_hashes: false,
+  remove_empty_values: false
+).freeze
+
+ALL_METRICS_OPTIONS = COMMON_OPTIONS.merge(
+  convert_values_to_numeric: { only: [:account_balance] }
+).freeze
+
+def process_rows(file_path, csv_options)
   row_index = 0
 
-  SmarterCSV.process(file_path, chunk_size: CHUNK_SIZE) do |chunk|
+  SmarterCSV.process(file_path, csv_options) do |chunk|
     chunk.each do |row|
       yield row, row_index
       row_index += 1
@@ -30,7 +59,7 @@ def row_key(row)
 end
 
 def read_file(file_path)
-  row_count = process_rows(file_path) {}
+  row_count = process_rows(file_path, NO_NUMERIC_OPTIONS) {}
   ImplementationSupport.emit_checkpoint("post_file_read")
 
   { "row_count" => row_count }
@@ -38,7 +67,7 @@ end
 
 def count_high_balances(file_path, threshold_cents)
   count = 0
-  row_count = process_rows(file_path) do |row|
+  row_count = process_rows(file_path, BALANCE_ONLY_OPTIONS) do |row|
     count += 1 if ImplementationSupport.cents_from_decimal(row[:account_balance]) > threshold_cents
   end
   ImplementationSupport.emit_checkpoint("post_file_read")
@@ -50,7 +79,7 @@ def count_duplicate_rows(file_path)
   seen = {}
   duplicate_count = 0
 
-  row_count = process_rows(file_path) do |row|
+  row_count = process_rows(file_path, NO_NUMERIC_OPTIONS) do |row|
     key = row_key(row)
 
     if seen.key?(key)
@@ -70,7 +99,7 @@ end
 
 def total_account_balance(file_path)
   total_cents = 0
-  row_count = process_rows(file_path) do |row|
+  row_count = process_rows(file_path, BALANCE_ONLY_OPTIONS) do |row|
     total_cents += ImplementationSupport.cents_from_decimal(row[:account_balance])
   end
   ImplementationSupport.emit_checkpoint("post_file_read")
@@ -84,7 +113,7 @@ end
 
 def count_invalid_dob_rows(file_path)
   count = 0
-  row_count = process_rows(file_path) do |row|
+  row_count = process_rows(file_path, DOB_ONLY_OPTIONS) do |row|
     count += 1 unless ImplementationSupport.valid_date_of_birth?(row[:date_of_birth])
   end
   ImplementationSupport.emit_checkpoint("post_file_read")
@@ -94,7 +123,7 @@ end
 
 def invalid_dob_indexes(file_path)
   indexes = []
-  row_count = process_rows(file_path) do |row, row_index|
+  row_count = process_rows(file_path, DOB_ONLY_OPTIONS) do |row, row_index|
     indexes << row_index unless ImplementationSupport.valid_date_of_birth?(row[:date_of_birth])
   end
   ImplementationSupport.emit_checkpoint("post_file_read")
@@ -112,7 +141,7 @@ def all_metrics(file_path, threshold_cents)
   total_cents = 0
   invalid_indexes = []
 
-  row_count = process_rows(file_path) do |row, row_index|
+  row_count = process_rows(file_path, ALL_METRICS_OPTIONS) do |row, row_index|
     key = row_key(row)
 
     if seen.key?(key)

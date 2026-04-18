@@ -452,12 +452,18 @@ def quick_start_snippets
       <<~RUBY
         require "smarter_csv"
 
+        csv_options = {
+          chunk_size: 10_000, col_sep: ",", row_sep: "\\n",
+          headers: { only: :account_balance },
+          convert_values_to_numeric: { only: :account_balance },
+          quote_escaping: :double_quotes,
+          strip_whitespace: false, verbose: :quiet
+        }
+
         high_balance_rows = 0
 
-        SmarterCSV.process("people.csv", chunk_size: 10_000) do |chunk|
-          chunk.each do |row|
-            high_balance_rows += 1 if row[:account_balance] > 10_000
-          end
+        SmarterCSV.process("people.csv", csv_options) do |rows|
+          rows.each { |r| high_balance_rows += 1 if r[:account_balance] > 10_000 }
         end
 
         puts high_balance_rows

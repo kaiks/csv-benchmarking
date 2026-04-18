@@ -18,54 +18,54 @@
 <line x1="90" y1="390.0" x2="534" y2="390.0" class="grid"/>
 <text x="80" y="394.0" class="axis-label" text-anchor="end">0</text>
 <line x1="90" y1="326.0" x2="534" y2="326.0" class="grid"/>
-<text x="80" y="330.0" class="axis-label" text-anchor="end">0.179</text>
+<text x="80" y="330.0" class="axis-label" text-anchor="end">0.173</text>
 <line x1="90" y1="262.0" x2="534" y2="262.0" class="grid"/>
-<text x="80" y="266.0" class="axis-label" text-anchor="end">0.359</text>
+<text x="80" y="266.0" class="axis-label" text-anchor="end">0.346</text>
 <line x1="90" y1="198.0" x2="534" y2="198.0" class="grid"/>
-<text x="80" y="202.0" class="axis-label" text-anchor="end">0.538</text>
+<text x="80" y="202.0" class="axis-label" text-anchor="end">0.520</text>
 <line x1="90" y1="134.0" x2="534" y2="134.0" class="grid"/>
-<text x="80" y="138.0" class="axis-label" text-anchor="end">0.717</text>
+<text x="80" y="138.0" class="axis-label" text-anchor="end">0.693</text>
 <line x1="90" y1="390" x2="534" y2="390" class="axis"/>
 <line x1="90" y1="134" x2="90" y2="390" class="axis"/>
-<rect x="90.0" y="214.76" width="77.6" height="175.24" fill="#0f766e"/>
-<text x="128.8" y="207.76" class="value-label" text-anchor="middle">0.491 s</text>
+<rect x="90.0" y="203.29" width="77.6" height="186.71" fill="#0f766e"/>
+<text x="128.8" y="196.29" class="value-label" text-anchor="middle">0.505 s</text>
 <text x="128.8" y="408" class="x-label" text-anchor="end" transform="rotate(-35 128.8 408)">Ruby CSV</text>
-<rect x="181.6" y="225.12" width="77.6" height="164.88" fill="#2563eb"/>
-<text x="220.4" y="218.12" class="value-label" text-anchor="middle">0.462 s</text>
+<rect x="181.6" y="219.18" width="77.6" height="170.82" fill="#2563eb"/>
+<text x="220.4" y="212.18" class="value-label" text-anchor="middle">0.462 s</text>
 <text x="220.4" y="408" class="x-label" text-anchor="end" transform="rotate(-35 220.4 408)">SmarterCSV</text>
-<rect x="273.2" y="161.43" width="77.6" height="228.57" fill="#dc2626"/>
-<text x="312.0" y="154.43" class="value-label" text-anchor="middle">0.640 s</text>
+<rect x="273.2" y="166.1" width="77.6" height="223.9" fill="#dc2626"/>
+<text x="312.0" y="159.1" class="value-label" text-anchor="middle">0.606 s</text>
 <text x="312.0" y="408" class="x-label" text-anchor="end" transform="rotate(-35 312.0 408)">Polars</text>
-<rect x="364.8" y="210.45" width="77.6" height="179.55" fill="#7c3aed"/>
-<text x="403.6" y="203.45" class="value-label" text-anchor="middle">0.503 s</text>
+<rect x="364.8" y="195.32" width="77.6" height="194.68" fill="#7c3aed"/>
+<text x="403.6" y="188.32" class="value-label" text-anchor="middle">0.527 s</text>
 <text x="403.6" y="408" class="x-label" text-anchor="end" transform="rotate(-35 403.6 408)">Polars low memory</text>
-<rect x="456.4" y="191.97" width="77.6" height="198.03" fill="#ca8a04"/>
-<text x="495.2" y="184.97" class="value-label" text-anchor="middle">0.555 s</text>
+<rect x="456.4" y="161.43" width="77.6" height="228.57" fill="#ca8a04"/>
+<text x="495.2" y="154.43" class="value-label" text-anchor="middle">0.619 s</text>
 <text x="495.2" y="408" class="x-label" text-anchor="end" transform="rotate(-35 495.2 408)">DuckDB</text>
 <text x="584" y="112" class="panel-title">Peak anonymous memory</text>
 <line x1="642" y1="390.0" x2="1070" y2="390.0" class="grid"/>
 <text x="632" y="394.0" class="axis-label" text-anchor="end">0</text>
 <line x1="642" y1="326.0" x2="1070" y2="326.0" class="grid"/>
-<text x="632" y="330.0" class="axis-label" text-anchor="end">9.12</text>
+<text x="632" y="330.0" class="axis-label" text-anchor="end">9.13</text>
 <line x1="642" y1="262.0" x2="1070" y2="262.0" class="grid"/>
-<text x="632" y="266.0" class="axis-label" text-anchor="end">18.2</text>
+<text x="632" y="266.0" class="axis-label" text-anchor="end">18.3</text>
 <line x1="642" y1="198.0" x2="1070" y2="198.0" class="grid"/>
 <text x="632" y="202.0" class="axis-label" text-anchor="end">27.4</text>
 <line x1="642" y1="134.0" x2="1070" y2="134.0" class="grid"/>
 <text x="632" y="138.0" class="axis-label" text-anchor="end">36.5</text>
 <line x1="642" y1="390" x2="1070" y2="390" class="axis"/>
 <line x1="642" y1="134" x2="642" y2="390" class="axis"/>
-<rect x="642.0" y="233.3" width="74.4" height="156.7" fill="#0f766e"/>
-<text x="679.2" y="226.3" class="value-label" text-anchor="middle">22.3 MiB</text>
+<rect x="642.0" y="229.44" width="74.4" height="160.56" fill="#0f766e"/>
+<text x="679.2" y="222.44" class="value-label" text-anchor="middle">22.9 MiB</text>
 <text x="679.2" y="408" class="x-label" text-anchor="end" transform="rotate(-35 679.2 408)">Ruby CSV</text>
-<rect x="730.4" y="229.18" width="74.4" height="160.82" fill="#2563eb"/>
-<text x="767.6" y="222.18" class="value-label" text-anchor="middle">22.9 MiB</text>
+<rect x="730.4" y="232.53" width="74.4" height="157.47" fill="#2563eb"/>
+<text x="767.6" y="225.53" class="value-label" text-anchor="middle">22.5 MiB</text>
 <text x="767.6" y="408" class="x-label" text-anchor="end" transform="rotate(-35 767.6 408)">SmarterCSV</text>
-<rect x="818.8" y="166.25" width="74.4" height="223.75" fill="#dc2626"/>
-<text x="856.0" y="159.25" class="value-label" text-anchor="middle">31.9 MiB</text>
+<rect x="818.8" y="167.95" width="74.4" height="222.05" fill="#dc2626"/>
+<text x="856.0" y="160.95" class="value-label" text-anchor="middle">31.7 MiB</text>
 <text x="856.0" y="408" class="x-label" text-anchor="end" transform="rotate(-35 856.0 408)">Polars</text>
-<rect x="907.2" y="164.03" width="74.4" height="225.97" fill="#7c3aed"/>
-<text x="944.4" y="157.03" class="value-label" text-anchor="middle">32.2 MiB</text>
+<rect x="907.2" y="168.55" width="74.4" height="221.45" fill="#7c3aed"/>
+<text x="944.4" y="161.55" class="value-label" text-anchor="middle">31.6 MiB</text>
 <text x="944.4" y="408" class="x-label" text-anchor="end" transform="rotate(-35 944.4 408)">Polars low memory</text>
 <rect x="995.6" y="161.43" width="74.4" height="228.57" fill="#ca8a04"/>
 <text x="1032.8" y="154.43" class="value-label" text-anchor="middle">32.6 MiB</text>
@@ -74,26 +74,26 @@
 <line x1="90" y1="730.0" x2="1070" y2="730.0" class="grid"/>
 <text x="80" y="734.0" class="axis-label" text-anchor="end">0</text>
 <line x1="90" y1="686.0" x2="1070" y2="686.0" class="grid"/>
-<text x="80" y="690.0" class="axis-label" text-anchor="end">8.73</text>
+<text x="80" y="690.0" class="axis-label" text-anchor="end">8.72</text>
 <line x1="90" y1="642.0" x2="1070" y2="642.0" class="grid"/>
-<text x="80" y="646.0" class="axis-label" text-anchor="end">17.5</text>
+<text x="80" y="646.0" class="axis-label" text-anchor="end">17.4</text>
 <line x1="90" y1="598.0" x2="1070" y2="598.0" class="grid"/>
 <text x="80" y="602.0" class="axis-label" text-anchor="end">26.2</text>
 <line x1="90" y1="554.0" x2="1070" y2="554.0" class="grid"/>
 <text x="80" y="558.0" class="axis-label" text-anchor="end">34.9</text>
 <line x1="90" y1="730" x2="1070" y2="730" class="axis"/>
 <line x1="90" y1="554" x2="90" y2="730" class="axis"/>
-<rect x="90.0" y="617.43" width="184.8" height="112.57" fill="#0f766e"/>
-<text x="182.4" y="610.43" class="value-label" text-anchor="middle">22.3 MiB</text>
+<rect x="90.0" y="614.49" width="184.8" height="115.51" fill="#0f766e"/>
+<text x="182.4" y="607.49" class="value-label" text-anchor="middle">22.9 MiB</text>
 <text x="182.4" y="748" class="x-label" text-anchor="end" transform="rotate(-35 182.4 748)">Ruby CSV</text>
-<rect x="288.8" y="614.48" width="184.8" height="115.52" fill="#2563eb"/>
-<text x="381.2" y="607.48" class="value-label" text-anchor="middle">22.9 MiB</text>
+<rect x="288.8" y="613.15" width="184.8" height="116.85" fill="#2563eb"/>
+<text x="381.2" y="606.15" class="value-label" text-anchor="middle">23.2 MiB</text>
 <text x="381.2" y="748" class="x-label" text-anchor="end" transform="rotate(-35 381.2 748)">SmarterCSV</text>
-<rect x="487.6" y="575.1" width="184.8" height="154.9" fill="#dc2626"/>
-<text x="580.0" y="568.1" class="value-label" text-anchor="middle">30.7 MiB</text>
+<rect x="487.6" y="574.57" width="184.8" height="155.43" fill="#dc2626"/>
+<text x="580.0" y="567.57" class="value-label" text-anchor="middle">30.8 MiB</text>
 <text x="580.0" y="748" class="x-label" text-anchor="end" transform="rotate(-35 580.0 748)">Polars</text>
-<rect x="686.4" y="576.13" width="184.8" height="153.87" fill="#7c3aed"/>
-<text x="778.8" y="569.13" class="value-label" text-anchor="middle">30.5 MiB</text>
+<rect x="686.4" y="575.46" width="184.8" height="154.54" fill="#7c3aed"/>
+<text x="778.8" y="568.46" class="value-label" text-anchor="middle">30.6 MiB</text>
 <text x="778.8" y="748" class="x-label" text-anchor="end" transform="rotate(-35 778.8 748)">Polars low memory</text>
 <rect x="885.2" y="572.86" width="184.8" height="157.14" fill="#ca8a04"/>
 <text x="977.6" y="565.86" class="value-label" text-anchor="middle">31.2 MiB</text>
